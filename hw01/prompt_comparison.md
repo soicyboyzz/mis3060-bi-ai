@@ -34,3 +34,18 @@ The structured format made this immediately the most scannable and usable output
 
 ## Conclusion
 All three strategies produced similar underlying analytical content — summary KPIs, purpose-level breakdown, and delinquency/default trends — which suggests the model's core reasoning about the question wasn't very sensitive to prompting strategy in this case. What changed was framing and usability: the role-assigned prompt shifted the tone toward executive-friendly plain language, while the few-shot prompt imposed a structure that made the output directly actionable without further editing. For a BI analyst who needs to actually build or present a dashboard, the few-shot version is the most useful as-is, since its metric-by-metric structure maps almost directly onto dashboard tiles and chart types. The role-assigned version is the best fit if the deliverable is a verbal or written pitch to executives rather than a build spec. This suggests that for structured analytical deliverables, specifying output format did more work than specifying persona — though persona still mattered for tone when the audience was explicitly non-technical.
+
+## Fact-Check
+
+**Claim:** Claude's response (Part 2, Question 3) stated that default is
+"typically triggered after delinquency persists past a defined threshold
+(often 90+ days) or the lender concludes the loan is unlikely to be repaid
+as structured."
+
+**Source:** Consumer Financial Protection Bureau — "Mortgages 90 or more
+days delinquent," Mortgage Performance Trends.
+https://www.consumerfinance.gov/data-research/mortgage-performance-trends/mortgages-90-or-more-days-delinquent/
+
+**What the source says:** The CFPB defines its 90-day delinquency category as a measure of "serious delinquencies," capturing borrowers who have missed three or more payments, and states this rate measures more severe economic distress. This sits alongside the CFPB's separate 30-89 day category, which it treats as an earlier-stage, early-warning measure rather than a severe one.
+
+**Do they agree?** Partially. The CFPB source confirms that 90 days (three missed payments) is a real, officially-used threshold marking a meaningful jump in severity — which supports the substance of Claude's claim. However, the CFPB's own language never uses the word "default" at that threshold; it calls it "serious delinquency," not default, and it applies this specifically to mortgages rather than to consumer loans generally (auto, personal, business, etc., as in Wildcat's portfolio). So Claude's claim captured a real and commonly-cited number, but stated it more definitively and more generally than the primary source actually supports — the CFPB doesn't treat 90 days as the universal line between "delinquent" and "default" across loan types; it treats it as one severity marker within a broader delinquency spectrum, and other CFPB mortgage servicing rules use a different number (120 days) for a different action (foreclosure referral). My conclusion: Claude is useful for surfacing the right general concept and a commonly-referenced figure, but it can present a number with more universality and precision than the primary source actually claims. As a BI analyst, I'd treat Claude's specific thresholds as a lead for research, not a citable fact, and would always trace it back to the primary source before using it in a report to Wildcat's committee.
