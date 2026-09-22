@@ -1,9 +1,3 @@
-# HW2 Specification: EDA Script for Wildcat Capital Transactions
-
-**Author:** Aiden James
-**Course:** MIS3060 Business Intelligence with AI, Villanova University
-**Deliverable requested:** One Python script, saved as `hw02/hw02_eda.py`
-
 ## Purpose
 
 I need a single Python script that performs a complete exploratory data analysis (EDA) of Wildcat Capital's transaction history. The goal is to profile the data: understand its shape, confirm it loaded correctly, describe its key distributions and relationships, and surface anything that needs further investigation. This is profiling only. The script must not clean, fix, or change the data in any way.
