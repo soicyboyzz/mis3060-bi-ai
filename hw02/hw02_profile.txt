@@ -1,0 +1,129 @@
+WILDCAT CAPITAL - TRANSACTION DATA PROFILE
+Source: data/raw/fact_transactions.csv
+
+======================================================================
+STEP 2: Dataset Shape
+======================================================================
+Rows:    298,772
+Columns: 9
+
+======================================================================
+STEP 3: Column Names and Data Types
+======================================================================
+Column         Data Type   
+---------------------------
+txn_id         int64       
+client_id      int64       
+advisor_id     int64       
+security_id    float64     
+txn_date       object      
+txn_type       object      
+shares         float64     
+price          float64     
+amount         float64     
+
+======================================================================
+STEP 4: Missing Values by Column
+======================================================================
+Column              Missing   % of Rows
+---------------------------------------
+txn_id                    0       0.00%
+client_id                 0       0.00%
+advisor_id                0       0.00%
+security_id         101,597      34.00%
+txn_date                  0       0.00%
+txn_type                  0       0.00%
+shares              101,597      34.00%
+price               101,597      34.00%
+amount                    0       0.00%
+
+======================================================================
+STEP 5: Descriptive Statistics (Numeric Columns)
+======================================================================
+                 txn_id  client_id  advisor_id  security_id     shares      price     amount
+count        298,772.00 298,772.00  298,772.00   197,175.00 197,175.00 197,175.00 298,772.00
+mean         149,386.50   1,249.66       12.80       249.32     247.77     255.13  54,075.17
+std           86,248.19     722.72        7.27       144.27     147.69     141.53  50,494.32
+min                1.00       1.00        1.00         1.00    -499.63      10.00      13.33
+25%           74,693.75     625.00        6.00       125.00     123.53     132.76  12,078.93
+50% (median) 149,386.50   1,246.00       13.00       248.00     248.77     255.09  41,220.49
+75%          224,079.25   1,873.00       19.00       375.00     373.83     377.93  81,827.01
+max          298,772.00   3,192.00       25.00       500.00     500.00     500.00 249,302.33
+
+======================================================================
+STEP 6: Transaction Type Breakdown
+======================================================================
+txn_type               Rows   % of Total
+----------------------------------------
+Buy                  83,556       27.97%
+Sell                 59,755       20.00%
+Dividend             53,864       18.03%
+Deposit              35,981       12.04%
+Advisory Fee         35,766       11.97%
+Withdrawal           29,850        9.99%
+----------------------------------------
+Total               298,772
+
+======================================================================
+STEP 7: Unique Counts
+======================================================================
+Distinct clients (client_id):     2,700
+Distinct advisors (advisor_id):   25
+Distinct securities (security_id): 500
+
+======================================================================
+STEP 8: Transaction Date Range
+======================================================================
+Earliest txn_date: 2020-01-01
+Latest txn_date:   2024-12-30
+
+======================================================================
+STEP 9: Duplicate Transaction IDs
+======================================================================
+Rows whose txn_id already appeared earlier in the file: 0
+
+======================================================================
+STEP 10: Amount Summary
+======================================================================
+Mean amount:   54,075.17
+Median amount: 41,220.49
+Skewness:      1.15
+Note: The amount distribution is right-skewed (a long tail of large values pulls the mean above the median).
+
+======================================================================
+STEP 11: Amount by Transaction Type
+======================================================================
+txn_type         Transactions       Mean Amount     Median Amount
+-----------------------------------------------------------------
+Dividend               53,864         64,077.30         48,805.60
+Buy                    83,556         63,738.49         47,893.58
+Sell                   59,755         63,635.55         48,080.16
+Deposit                35,981         50,588.07         50,760.33
+Withdrawal             29,850         49,997.34         49,843.42
+Advisory Fee           35,766          7,375.17            859.12
+
+======================================================================
+STEP 12: Correlations (shares, price, amount)
+======================================================================
+Correlation matrix:
+        shares  price  amount
+shares    1.00   0.00    0.65
+price     0.00   1.00    0.64
+amount    0.65   0.64    1.00
+
+Strongest correlations (ranked by absolute value):
+  1. shares - amount: 0.65
+  2. price - amount: 0.64
+  3. shares - price: 0.00
+
+======================================================================
+STEP 13: Negative Share Analysis by Transaction Type
+======================================================================
+txn_type             Min Shares      Max Shares   Negative Rows
+---------------------------------------------------------------
+Advisory Fee      no share data   no share data             n/a
+Buy                   -499.6323        499.9973             836
+Deposit           no share data   no share data             n/a
+Dividend                 1.0024        499.9981               0
+Sell                     1.0030        499.9961               0
+Withdrawal        no share data   no share data             n/a
