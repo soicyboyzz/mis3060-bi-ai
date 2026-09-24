@@ -218,7 +218,9 @@ If txn_date stayed a string, you wouldn't be able to subtract one date from anot
 
 ### 4. Is 2,700 clients / 25 advisors (about 108 per advisor) plausible for an RIA?
 
-It seems plausible, but it's on the higher side. A lot of full service RIAs usually have somewhere around 50 to 100 clients per advisor, especially if they are doing more hands on wealth management. Firms that use more support staff or have a more streamlined process can handle more clients per advisor. So 108 clients per advisor isn't crazy, but it is high enough that I would want to double check how the firm actually operates before assuming the number is totally normal.
+It seems plausible. According to SmartAsset, the median is about 73 clients per advisor, and a comfortable range is usually around 50 to 150 clients, so 108 clients per advisor fits inside that range, just on the higher end of it.
+
+Source: SmartAsset, "Average Number of Clients Per Financial Advisor" — https://smartasset.com/advisor-resources/average-number-of-clients-per-financial-advisor
 
 ### 5. Two plausible explanations for negative shares on 836 Buy transactions, and what I'd do next
 
