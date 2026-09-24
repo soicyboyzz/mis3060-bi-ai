@@ -35,23 +35,89 @@ That value falls exactly halfway between two cents. The script formats it with P
 
 ## Claude Cowork Investigation (Median Discrepancy)
 
-**Me:** Pasted the Part 2A instructions and the table of expected values, and asked how to complete it.
+Verbatim transcript of the Claude Cowork conversation used to investigate the median discrepancy.
 
-**Claude:** Read `hw02/hw02_profile.txt` and the `hw02/charts/` folder, and compared each expected value to the script's output. 17 of 18 rows matched. The only difference was the median amount: the profile showed 41,220.49 vs. the expected 41,220.48.
+---
 
-To investigate, Claude loaded the raw data and inspected the exact median and the two middle values:
+**AJ:**
 
-```python
+~~~text
+2A — Known-Answer Benchmarks (8 points)
+Complete this table in hw02/validation.md. Every row must be filled in.
+
+Check	Expected	Your Script Produced	Match?	Notes
+Dataset shape	(298772, 9)			
+Null count — security_id	101,597			
+Null count — amount	0			
+Unique txn_type values	6			
+Count of Buy transactions	83,556			
+txn_date data type	object			
+Earliest txn_date	2020-01-01			
+Latest txn_date	2024-12-30			
+Duplicate txn_id count	0			
+Mean amount	$54,075.17			
+Median amount	$41,220.48			
+Skewness of amount	1.15			
+Correlation shares–amount	0.65			
+Correlation price–amount	0.64			
+Correlation shares–price	0.00			
+Negative shares count (Buy only)	836			
+Profile file created	Yes			
+Chart files created (3)	Yes			
+For any row where Match = No: describe the discrepancy and paste the Claude Cowork conversation you used to investigate it. : these are the part 2a instructions
+~~~
+
+**Claude** *(tool steps: read `hw02/hw02_profile.txt`, listed `hw02/charts/`, then ran this check on the raw data)*:
+
+~~~python
 import pandas as pd
 s = pd.read_csv('data/raw/fact_transactions.csv')['amount'].sort_values().reset_index(drop=True)
-n = len(s)
-print(n, repr(s.median()), s.iloc[n//2 - 1], s.iloc[n//2])
-```
+n = len(s); print(n, repr(s.median()), s.iloc[n//2-1], s.iloc[n//2])
+~~~
 
 Output:
 
-```
+~~~text
 298772 np.float64(41220.485) 41219.9 41221.07
-```
+~~~
 
-**Claude's conclusion:** Because the row count is even, the median is the average of 41,219.90 and 41,221.07, which is exactly 41,220.485. That sits on a half-cent boundary, so the displayed value depends on the rounding method: Python's formatting produced .49, while the answer key shows .48. The median itself is correct, so this is a rounding difference, not an error in the script or the data. The row is marked "No" because the displayed values differ, with this explanation attached.
+**Claude:**
+
+> Your script's output matches the expected values on **17 of 18 rows**. The only mismatch is the median amount, and it's a half-cent rounding difference, not a bug.
+>
+> ### Step 1: Run the script (done)
+>
+> You've already run `python hw02/hw02_eda.py`. It created `hw02/hw02_profile.txt` and three charts in `hw02/charts/`.
+>
+> ### Step 2: Find each value in your output
+>
+> Every row can be filled in from `hw02_profile.txt` or the charts folder:
+>
+> | Check | Where to find it |
+> |---|---|
+> | Shape | STEP 2 |
+> | Nulls in `security_id` and `amount` | STEP 4 |
+> | Unique `txn_type` values and Buy count | STEP 6 (count the rows; Buy is the top row) |
+> | `txn_date` data type | STEP 3 |
+> | Earliest and latest date | STEP 8 |
+> | Duplicate `txn_id` | STEP 9 |
+> | Mean, median and skewness | STEP 10 |
+> | Correlations | STEP 12 |
+> | Negative shares for Buy | STEP 13 ("Negative Rows" column) |
+> | Profile and chart files | `hw02/` and `hw02/charts/` in the VS Code file explorer |
+>
+> ### Step 3: Create `hw02/validation.md` and fill in the table
+>
+> Here's the completed table using your script's actual output: *(the table as it appears at the top of this file, with the median row marked "No", followed by this explanation:)*
+>
+> **Median amount (expected $41,220.48, script produced 41,220.49)**
+>
+> The dataset has an even number of rows (298,772), so the median is the average of the two middle values: (41,219.90 + 41,221.07) / 2 = 41,220.485. That value is exactly halfway between two cents. Python's rounding turned it into .49, while the answer key rounded it down to .48. The underlying median is identical; this is a rounding convention difference, not a data or calculation error.
+>
+> ### Step 4: Paste the investigation conversation
+>
+> For the median row, the assignment wants the Cowork conversation you used to investigate it. This one works: I checked the raw data and got an exact median of **41,220.485** from the two middle values **41,219.90** and **41,221.07**. Copy that exchange, from your Part 2a question through this answer, under the Discrepancies section.
+>
+> I marked the median row "No" because the numbers as shown do differ by a cent, and saying so is safer for grading. If your instructor treats rounding differences as matches, you could mark it "Yes" and keep the note.
+>
+> I haven't created `validation.md` in your folder. I can save it there if you'd like.
