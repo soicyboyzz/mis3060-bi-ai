@@ -45,7 +45,7 @@ I need one Python script, `hw03/hw03_earnings.py`, that builds a quarterly earni
    When a figure appears more than once, use the first figure for the current quarter, not the prior-year comparison.
 6. **Print each row as it is processed** in this exact format:
    `[Ticker] | [Period] | Revenue: $X | EPS: $X | Net Income: $X`
-   For example: `AAPL | fourth quarter fiscal 2024 | Revenue: $94930M | EPS: $0.97 | Net Income: $14736M`.
+   For example: `AAPL | fourth quarter fiscal 2024 | Revenue: $94900M | EPS: $0.97 | Net Income: $14736M`.
 7. **Save the results** to `hw03/earnings_history.csv` with exactly these columns in this order: `company`, `ticker`, `cik`, `filing_date`, `period`, `revenue_reported`, `eps_diluted`, `net_income`. Keep the CIK as the 10-digit string with leading zeros. After saving, print a confirmation with the file path and the number of rows written.
 8. **Use `"NOT_FOUND"` for missing data.** If a regular expression finds no match, store the string `"NOT_FOUND"` in that cell. Never leave a cell blank and never store `None` or `NaN`. A blank cell and a value that couldn't be extracted mean different things.
 9. **Add a header comment block** at the top of the script with the script name (`hw03_earnings.py`), the data source (SEC EDGAR 8-K Item 2.02 filings), the author (Aiden James), the date generated, a one-sentence description, and the run command.
