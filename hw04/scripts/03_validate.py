@@ -19,9 +19,10 @@ import pandas as pd
 def check_referential_integrity(fact_df, fact_key, dim_df, dim_key):
     """Check that every value of fact_df[fact_key] exists in dim_df[dim_key].
 
-    Keys are compared exactly as text (the way a BI join compares them), so a
-    key stored as '45.0' does NOT match '45'. Blank keys are counted
-    separately and are not orphans.
+    Keys are compared as text (the way a BI join compares them), so a key
+    stored as '45.0' does NOT match '45'. Leading/trailing spaces are trimmed
+    first (01_profile.py reports whitespace separately). Blank keys are
+    counted separately and are not orphans.
 
     Returns a dict with:
         rows                  rows in the fact table
@@ -190,7 +191,7 @@ def scorecard(T, stage, ri, rules):
         key_ok = ~(df.duplicated(spec["pk"], keep="first") | df.duplicated(spec["natural_key"], keep="first"))
         rr = rules[rules["table"] == t]
         rel = ri[ri["child_table"] == t]
-        matched = (rel["match_rate_pct"] / 100 * rel["non_null_keys"]).sum()
+        matched = (rel["non_null_keys"] - rel["orphan_rows"]).sum()   # counts, not the rounded %
         rows.append(dict(
             table=t, stage=stage, rows=len(df),
             pct_completeness=round(filled / req_cells * 100, 3),
@@ -240,9 +241,11 @@ def main():
         print(rec[["stage", "reconciliation", "rows_compared", "rows_matching", "match_pct", "difference"]].to_string(index=False))
         print("\nIQR OUTLIERS")
         print(iqr[["stage", "table", "column", "lower_fence", "upper_fence", "below", "above", "flagged_pct"]].to_string(index=False))
-        print("Flagged is not the same as wrong: these columns are right-skewed by nature "
-              "(a few UHNW clients hold most assets), so most IQR outliers are real large "
-              "accounts or trades; they are leads to check, not errors to delete.")
+        print("Flagged is not the same as wrong: amounts and AUM are right-skewed by nature "
+              "(a few UHNW clients hold most assets), so their IQR outliers are real large "
+              "accounts, trades and fees; active_alpha_ytd has a narrow fence, so most of its "
+              "flags are ordinary spread, and only the extreme tail (the D23 return_ytd_suspect "
+              "rows) is probably wrong. Outliers are leads to check, not errors to delete.")
         print("\nDATA QUALITY SCORECARD")
         print(score.to_string(index=False))
 

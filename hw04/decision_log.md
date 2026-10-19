@@ -121,7 +121,7 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | Field | Entry |
 |---|---|
 | **Table / column** | `fact_portfolio_snapshot.aum`, `fact_fees.aum_basis` |
-| **Evidence** | 420 snapshots (92 clients) show `aum = 1000.0` exactly, and no value is ever below 1,000. Those months then show returns near −97%. 386 fee rows use the same 1,000 basis (fees of $0.65–$0.84). |
+| **Evidence** | 420 snapshots (92 clients) show `aum = 1000.0` exactly, and no value is ever below 1,000. The median YTD return in those months is −94% (59% of them are below −90%). 386 fee rows use the same 1,000 basis (fees of $0.65–$0.80). |
 | **Dimension violated** | Accuracy/Plausibility |
 | **Decision** | **Flag** with `aum_at_floor` (snapshot) and `aum_basis_at_floor` (fees). |
 | **Justification** | A hard floor means the true value was lower (possibly zero) and was clamped. The real balance is unknown, so it cannot be repaired. |
@@ -225,7 +225,7 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | Field | Entry |
 |---|---|
 | **Table / column** | `fact_transactions` (`Advisory Fee`) vs `fact_fees.amount` |
-| **Evidence** | F307: in all 28,746 client-months that have both, the amounts differ (median ratio 3.11). Totals: $263,780,236.09 in transactions vs $204,675,583.12 in the fee table. 1,933 fee debits fall in months with no fee row. By contrast, `fact_fees` reconciles 100% to itself (`amount = aum_basis × bps / 10000 / 12`) and to snapshot AUM (`aum_basis = aum`, 122,197 of 122,197). |
+| **Evidence** | F307: in all 28,746 client-months that have both, the amounts differ (median ratio 3.11). Totals: $263,780,236.09 in transactions vs $204,675,583.12 in the fee table. 1,933 client-months with fee debits (2,297 debits) have no fee row. By contrast, `fact_fees` reconciles 100% to itself (`amount = aum_basis × bps / 10000 / 12`) and to snapshot AUM (`aum_basis = aum`, 122,197 of 122,197). |
 | **Dimension violated** | Consistency (cross-table) |
 | **Decision** | **Leave as is**. Treat `fact_fees` as the system of record for fee revenue. |
 | **Justification** | The two tables come from different systems, and only `fact_fees` can be proven internally. Neither can be "corrected" from the other. |

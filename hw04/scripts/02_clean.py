@@ -171,6 +171,7 @@ def d12_orphan_transactions(C, R):
         columns={"txn_id": "copy_of_txn_id", "client_id": "copy_of_client_id"}), on=same, how="left")
     assert len(m) == len(orphans), "an orphan matches more than one valid transaction"
     assert m["copy_of_txn_id"].notna().all(), "an orphan is not a copy of a valid transaction"
+    assert m["copy_of_txn_id"].is_unique, "two orphans copy the same valid transaction (not 1-to-1)"
     print(f"   verified: each of the {len(m)} orphans is a 1-to-1 copy of a valid transaction "
           f"(${to_num(m['amount']).sum():,.2f} total)")
     m["quarantine_reason"] = "D12 client_id not in dim_client; exact copy of copy_of_txn_id"
@@ -250,7 +251,11 @@ def flags(C):
     # D14 trades on non-trading days
     trading = t["txn_date"].map(d.set_index("date")["is_trading_day"])
     flag = (t["txn_type"].isin(["Buy", "Sell"]) & (trading == "0")).astype(int)
-    assert (to_date(t.loc[flag == 1, "txn_date"]).dt.dayofweek >= 5).all()  # independent check
+    # independent check in both directions: every flagged row is a Sat/Sun and
+    # no weekend Buy/Sell was missed (e.g. a txn_date missing from dim_date)
+    weekend = to_date(t["txn_date"]).dt.dayofweek >= 5
+    assert (flag == (t["txn_type"].isin(["Buy", "Sell"]) & weekend).astype(int)).all(), \
+        "weekend flag disagrees with the calendar"
     t["trade_on_non_trading_day"] = flag
     print(f"   D14 trade_on_non_trading_day : {flag.sum():,} Buy/Sell rows (all verified Sat/Sun)")
     log("fact_transactions", "D14", "Buy/Sell on weekend", "flag trade_on_non_trading_day", flag.sum())
@@ -280,7 +285,12 @@ def flags(C):
     # D23 implausible YTD returns
     r = to_num(s["return_ytd"])
     s["return_ytd_suspect"] = ((r > 1.0) | (r < -0.9)).astype(int)
-    assert s["return_ytd_suspect"].sum() == ((r > 1.0).sum() + (r < -0.9).sum())
+    flagged = s["return_ytd_suspect"] == 1
+    # every unflagged value is numeric and inside [-0.9, 1.0] (a NaN would fail here)
+    assert r[~flagged].between(-0.9, 1.0).all(), "an unflagged return is outside the band or not numeric"
+    # flagged values are kept, and they are internally consistent (decision log D23)
+    b, a = to_num(s["benchmark_return_ytd"]), to_num(s["active_alpha_ytd"])
+    assert ((r - b - a).abs() <= 1e-5)[flagged].all()
     print(f"   D23 return_ytd_suspect        : {s['return_ytd_suspect'].sum():,} snapshots "
           f"({(r > 1.0).sum()} > +100%, {(r < -0.9).sum()} < -90%), "
           f"{s.loc[s['return_ytd_suspect'] == 1, 'client_id'].nunique()} clients")
@@ -321,6 +331,11 @@ def main():
         recon.append((t, len(R[t]), len(C[t]), q, ok))
         print(f"   {t:<26} raw {len(R[t]):>8,} = clean {len(C[t]):>8,} + quarantined {q:>4}  {'OK' if ok else 'FAIL'}")
         assert ok, t
+        # same check on the keys: every raw row is in clean or quarantine, exactly once
+        pk = SCHEMA[t]["pk"]
+        q_keys = [df[pk] for (tt, _), df in QUARANTINE.items() if tt == t]
+        kept_or_q = pd.concat([C[t][pk]] + q_keys, ignore_index=True)
+        assert kept_or_q.is_unique and set(kept_or_q) == set(R[t][pk]), f"{t} keys do not reconcile"
         assert list(C[t].columns[:R[t].shape[1]]) == list(R[t].columns), f"{t} columns changed"
         added = list(C[t].columns[R[t].shape[1]:])
         for a in added:

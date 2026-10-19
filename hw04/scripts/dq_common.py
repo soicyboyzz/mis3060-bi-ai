@@ -341,8 +341,12 @@ def _date_rules():
     def derived(colname, fn):
         def rule(df):
             d = to_date(df["date"])
-            expected = fn(d).astype(str)
-            return d.notna(), expected.values != df[colname].values
+            ok = d.notna()
+            # derive only from parseable dates: one NaT would turn year into
+            # '2020.0' for every row (and crash the ISO-week cast)
+            expected = pd.Series("", index=df.index)
+            expected[ok] = fn(d[ok]).astype(str).values
+            return ok, expected.values != df[colname].values
         return rule
     return [
         ("year matches date", "ERROR", derived("year", lambda d: d.dt.year)),
