@@ -60,7 +60,7 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | **Evidence** | F285: 200 rows (`txn_id` 298573–298772, the last 200 IDs) have 200 distinct `client_id`s between 2702 and 3192. No such client exists (max is 2525). F269/F270: each one matches an earlier transaction on every other column (advisor, security, date, type, shares, price, amount). Only the `client_id` differs. |
 | **Dimension violated** | Referential Integrity, Uniqueness |
 | **Decision** | **Quarantine** all 200 (`quarantine_fact_transactions_orphan_duplicates.csv`), recording the `txn_id` and `client_id` of the valid transaction each one copies. Assert the 1-to-1 match before removing them. |
-| **Justification** | They cannot be joined to any client, and the real transaction they copy is already in the table. Keeping them would double-count about $8.6M of activity once someone fixes the join. |
+| **Justification** | They cannot be joined to any client, and the real transaction they copy is already in the table. Keeping them would double-count $10,888,495.37 of transaction amounts once someone fixes the join. |
 | **Risk** | If the client dimension is merely *missing* 200 clients, we would lose real activity. Two facts argue against this. Every row is an exact copy of another client's trade (same day, shares to 4 decimals, same price). And the 200 rows sit together at the end of the file. The quarantine file keeps them recoverable. |
 
 ### D13 — `fact_transactions.shares`: 836 Buys with negative shares
@@ -219,7 +219,7 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | **Dimension violated** | Accuracy/Plausibility |
 | **Decision** | **Leave as is** and document. A flag would mark every dividend row, so it adds nothing. |
 | **Justification** | The true dividend per share is not in the data. Dividing by an assumed yield would invent numbers. |
-| **Risk** | Income totals are overstated by roughly 50–100×. The report must not present dividend income as real. |
+| **Risk** | Income totals are overstated by a large, unknown factor (a typical 0.5–2% payment would be 50–200× smaller). The report must not present dividend income as real. |
 
 ### D17 — Advisory-fee transactions don't match the fee table
 | Field | Entry |
@@ -285,7 +285,7 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | Field | Entry |
 |---|---|
 | **Table / column** | `dim_client.is_active` |
-| **Evidence** | 176 inactive clients. Their last snapshots range from 2020 to 2024-11, and every active client (except the D01 duplicates) has a snapshot in 2024-12. The consistency check passes. |
+| **Evidence** | 176 inactive clients. Their last snapshots fall between 2022-12 and 2023-11 (one inactive client is a D01 duplicate with no snapshots), and every active client (except the D01 duplicates) has a snapshot in 2024-12. The consistency check passes. |
 | **Dimension violated** | None |
 | **Decision** | **Leave as is**. |
 | **Justification** | Closed accounts are legitimate history. |
