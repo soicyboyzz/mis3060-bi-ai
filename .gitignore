@@ -50,3 +50,7 @@ Thumbs.db
 
 # Claude working files (not part of submissions)
 Claude outputs/
+
+# HW4: commit the raw, clean, audit and report CSVs
+!hw04/**/*.csv
+hw04/scripts/__pycache__/

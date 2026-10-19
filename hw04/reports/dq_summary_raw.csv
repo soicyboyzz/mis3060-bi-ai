@@ -1,0 +1,309 @@
+finding_id,group,table,column,check,severity,rows_affected,rows_checked,pct_affected,detail,example
+F001,1 Column level,dim_advisor,certifications,text null token (pandas would turn it into NaN),INFO,6,25,24.0,tokens: None,
+F002,1 Column level,dim_advisor,certifications,mixed value formats,INFO,6,25,24.0,UPPER:19; Title:6,
+F003,1 Column level,dim_advisor,advisor_id,completeness,PASS,0,25,0.0,,
+F004,1 Column level,dim_advisor,advisor_id,type_int,PASS,0,25,0.0,,
+F005,1 Column level,dim_advisor,advisor_id,range_bound,PASS,0,25,0.0,,
+F006,1 Column level,dim_advisor,first_name,completeness,PASS,0,25,0.0,,
+F007,1 Column level,dim_advisor,first_name,type_text,PASS,0,25,0.0,,
+F008,1 Column level,dim_advisor,last_name,completeness,PASS,0,25,0.0,,
+F009,1 Column level,dim_advisor,last_name,type_text,PASS,0,25,0.0,,
+F010,1 Column level,dim_advisor,region,completeness,PASS,0,25,0.0,,
+F011,1 Column level,dim_advisor,region,type_text,PASS,0,25,0.0,,
+F012,1 Column level,dim_advisor,region,allowed_values,PASS,0,25,0.0,,
+F013,1 Column level,dim_advisor,years_experience,completeness,PASS,0,25,0.0,,
+F014,1 Column level,dim_advisor,years_experience,type_int,PASS,0,25,0.0,,
+F015,1 Column level,dim_advisor,years_experience,range_bound,PASS,0,25,0.0,,
+F016,1 Column level,dim_advisor,aum_target_mm,completeness,PASS,0,25,0.0,,
+F017,1 Column level,dim_advisor,aum_target_mm,type_decimal,PASS,0,25,0.0,,
+F018,1 Column level,dim_advisor,aum_target_mm,range_bound,PASS,0,25,0.0,,
+F019,1 Column level,dim_advisor,certifications,completeness,PASS,0,25,0.0,,
+F020,1 Column level,dim_advisor,certifications,type_text,PASS,0,25,0.0,,
+F021,1 Column level,dim_advisor,certifications,format_pattern,PASS,0,25,0.0,,
+F022,1 Column level,dim_advisor,advisor_id,primary key unique,PASS,0,25,0.0,,[]
+F023,1 Column level,dim_benchmark,name,mixed value formats,INFO,4,8,50.0,Title:4; UPPER:2; Mixed:2,
+F024,1 Column level,dim_benchmark,benchmark_id,completeness,PASS,0,8,0.0,,
+F025,1 Column level,dim_benchmark,benchmark_id,type_int,PASS,0,8,0.0,,
+F026,1 Column level,dim_benchmark,benchmark_id,range_bound,PASS,0,8,0.0,,
+F027,1 Column level,dim_benchmark,name,completeness,PASS,0,8,0.0,,
+F028,1 Column level,dim_benchmark,name,type_text,PASS,0,8,0.0,,
+F029,1 Column level,dim_benchmark,asset_class,completeness,PASS,0,8,0.0,,
+F030,1 Column level,dim_benchmark,asset_class,type_text,PASS,0,8,0.0,,
+F031,1 Column level,dim_benchmark,asset_class,allowed_values,PASS,0,8,0.0,,
+F032,1 Column level,dim_benchmark,ticker_proxy,completeness,PASS,0,8,0.0,,
+F033,1 Column level,dim_benchmark,ticker_proxy,type_text,PASS,0,8,0.0,,
+F034,1 Column level,dim_benchmark,ticker_proxy,format_pattern,PASS,0,8,0.0,,
+F035,1 Column level,dim_benchmark,benchmark_id,primary key unique,PASS,0,8,0.0,,[]
+F036,1 Column level,dim_client,state,mixed value formats,INFO,78,2525,3.089,UPPER:2447; Title:78,
+F037,1 Column level,dim_client,zip_code,values with leading zeros (lost if parsed as a number),INFO,232,2525,9.188,,
+F038,1 Column level,dim_client,client_tier,mixed value formats,INFO,996,2525,39.446,Title:1529; UPPER:996,
+F039,1 Column level,dim_client,primary_account_type,mixed value formats,INFO,1493,2525,59.129,Title:1032; digits:523; Mixed:489; UPPER:481,
+F040,1 Column level,dim_client,client_id,completeness,PASS,0,2525,0.0,,
+F041,1 Column level,dim_client,client_id,type_int,PASS,0,2525,0.0,,
+F042,1 Column level,dim_client,client_id,range_bound,PASS,0,2525,0.0,,
+F043,1 Column level,dim_client,first_name,completeness,PASS,0,2525,0.0,,
+F044,1 Column level,dim_client,first_name,type_text,PASS,0,2525,0.0,,
+F045,1 Column level,dim_client,last_name,completeness,PASS,0,2525,0.0,,
+F046,1 Column level,dim_client,last_name,type_text,PASS,0,2525,0.0,,
+F047,1 Column level,dim_client,age,completeness,PASS,0,2525,0.0,,
+F048,1 Column level,dim_client,age,type_int,PASS,0,2525,0.0,,
+F049,1 Column level,dim_client,age,range_bound,PASS,0,2525,0.0,,
+F050,1 Column level,dim_client,city,completeness,PASS,0,2525,0.0,,
+F051,1 Column level,dim_client,city,type_text,PASS,0,2525,0.0,,
+F052,1 Column level,dim_client,state,completeness,PASS,0,2525,0.0,,
+F053,1 Column level,dim_client,state,type_text,PASS,0,2525,0.0,,
+F054,1 Column level,dim_client,state,allowed_values,ERROR,78,2525,3.089,,"Pennsylvania, New York, New Jersey, Illinois, California"
+F055,1 Column level,dim_client,zip_code,completeness,PASS,0,2525,0.0,,
+F056,1 Column level,dim_client,zip_code,type_text,PASS,0,2525,0.0,,
+F057,1 Column level,dim_client,zip_code,format_pattern,PASS,0,2525,0.0,,
+F058,1 Column level,dim_client,risk_profile,completeness,WARN,76,2525,3.01,,
+F059,1 Column level,dim_client,risk_profile,type_text,PASS,0,2449,0.0,,
+F060,1 Column level,dim_client,risk_profile,allowed_values,PASS,0,2449,0.0,,
+F061,1 Column level,dim_client,client_tier,completeness,PASS,0,2525,0.0,,
+F062,1 Column level,dim_client,client_tier,type_text,PASS,0,2525,0.0,,
+F063,1 Column level,dim_client,client_tier,allowed_values,PASS,0,2525,0.0,,
+F064,1 Column level,dim_client,primary_account_type,completeness,PASS,0,2525,0.0,,
+F065,1 Column level,dim_client,primary_account_type,type_text,PASS,0,2525,0.0,,
+F066,1 Column level,dim_client,primary_account_type,allowed_values,PASS,0,2525,0.0,,
+F067,1 Column level,dim_client,initial_aum,completeness,PASS,0,2525,0.0,,
+F068,1 Column level,dim_client,initial_aum,type_decimal,PASS,0,2525,0.0,,
+F069,1 Column level,dim_client,initial_aum,range_bound,PASS,0,2525,0.0,,
+F070,1 Column level,dim_client,client_since,completeness,PASS,0,2525,0.0,,
+F071,1 Column level,dim_client,client_since,type_date,PASS,0,2525,0.0,,
+F072,1 Column level,dim_client,client_since,range_bound,PASS,0,2525,0.0,,
+F073,1 Column level,dim_client,advisor_id,completeness,PASS,0,2525,0.0,,
+F074,1 Column level,dim_client,advisor_id,type_int,PASS,0,2525,0.0,,
+F075,1 Column level,dim_client,advisor_id,range_bound,PASS,0,2525,0.0,,
+F076,1 Column level,dim_client,is_active,completeness,PASS,0,2525,0.0,,
+F077,1 Column level,dim_client,is_active,type_bool,PASS,0,2525,0.0,,
+F078,1 Column level,dim_client,client_id,primary key unique,PASS,0,2525,0.0,,[]
+F079,1 Column level,dim_date,date_id,completeness,PASS,0,1827,0.0,,
+F080,1 Column level,dim_date,date_id,type_int,PASS,0,1827,0.0,,
+F081,1 Column level,dim_date,date_id,range_bound,PASS,0,1827,0.0,,
+F082,1 Column level,dim_date,date,completeness,PASS,0,1827,0.0,,
+F083,1 Column level,dim_date,date,type_date,PASS,0,1827,0.0,,
+F084,1 Column level,dim_date,date,range_bound,PASS,0,1827,0.0,,
+F085,1 Column level,dim_date,year,completeness,PASS,0,1827,0.0,,
+F086,1 Column level,dim_date,year,type_int,PASS,0,1827,0.0,,
+F087,1 Column level,dim_date,year,range_bound,PASS,0,1827,0.0,,
+F088,1 Column level,dim_date,quarter,completeness,PASS,0,1827,0.0,,
+F089,1 Column level,dim_date,quarter,type_int,PASS,0,1827,0.0,,
+F090,1 Column level,dim_date,quarter,range_bound,PASS,0,1827,0.0,,
+F091,1 Column level,dim_date,month,completeness,PASS,0,1827,0.0,,
+F092,1 Column level,dim_date,month,type_int,PASS,0,1827,0.0,,
+F093,1 Column level,dim_date,month,range_bound,PASS,0,1827,0.0,,
+F094,1 Column level,dim_date,month_name,completeness,PASS,0,1827,0.0,,
+F095,1 Column level,dim_date,month_name,type_text,PASS,0,1827,0.0,,
+F096,1 Column level,dim_date,month_name,allowed_values,PASS,0,1827,0.0,,
+F097,1 Column level,dim_date,week_of_year,completeness,PASS,0,1827,0.0,,
+F098,1 Column level,dim_date,week_of_year,type_int,PASS,0,1827,0.0,,
+F099,1 Column level,dim_date,week_of_year,range_bound,PASS,0,1827,0.0,,
+F100,1 Column level,dim_date,day_of_week,completeness,PASS,0,1827,0.0,,
+F101,1 Column level,dim_date,day_of_week,type_text,PASS,0,1827,0.0,,
+F102,1 Column level,dim_date,day_of_week,allowed_values,PASS,0,1827,0.0,,
+F103,1 Column level,dim_date,is_month_end,completeness,PASS,0,1827,0.0,,
+F104,1 Column level,dim_date,is_month_end,type_flag,PASS,0,1827,0.0,,
+F105,1 Column level,dim_date,is_quarter_end,completeness,PASS,0,1827,0.0,,
+F106,1 Column level,dim_date,is_quarter_end,type_flag,PASS,0,1827,0.0,,
+F107,1 Column level,dim_date,is_year_end,completeness,PASS,0,1827,0.0,,
+F108,1 Column level,dim_date,is_year_end,type_flag,PASS,0,1827,0.0,,
+F109,1 Column level,dim_date,is_trading_day,completeness,PASS,0,1827,0.0,,
+F110,1 Column level,dim_date,is_trading_day,type_flag,PASS,0,1827,0.0,,
+F111,1 Column level,dim_date,date_id,primary key unique,PASS,0,1827,0.0,,[]
+F112,1 Column level,dim_security,security_id,completeness,PASS,0,500,0.0,,
+F113,1 Column level,dim_security,security_id,type_int,PASS,0,500,0.0,,
+F114,1 Column level,dim_security,security_id,range_bound,PASS,0,500,0.0,,
+F115,1 Column level,dim_security,ticker,completeness,PASS,0,500,0.0,,
+F116,1 Column level,dim_security,ticker,type_text,PASS,0,500,0.0,,
+F117,1 Column level,dim_security,ticker,format_pattern,PASS,0,500,0.0,,
+F118,1 Column level,dim_security,name,completeness,PASS,0,500,0.0,,
+F119,1 Column level,dim_security,name,type_text,PASS,0,500,0.0,,
+F120,1 Column level,dim_security,asset_class,completeness,PASS,0,500,0.0,,
+F121,1 Column level,dim_security,asset_class,type_text,PASS,0,500,0.0,,
+F122,1 Column level,dim_security,asset_class,allowed_values,PASS,0,500,0.0,,
+F123,1 Column level,dim_security,sector,completeness,PASS,0,281,0.0,,
+F124,1 Column level,dim_security,sector,blank_when_not_applicable,PASS,0,219,0.0,,
+F125,1 Column level,dim_security,sector,type_text,PASS,0,281,0.0,,
+F126,1 Column level,dim_security,sector,allowed_values,PASS,0,281,0.0,,
+F127,1 Column level,dim_security,benchmark_id,completeness,PASS,0,500,0.0,,
+F128,1 Column level,dim_security,benchmark_id,type_int,PASS,0,500,0.0,,
+F129,1 Column level,dim_security,benchmark_id,range_bound,PASS,0,500,0.0,,
+F130,1 Column level,dim_security,is_etf,completeness,PASS,0,500,0.0,,
+F131,1 Column level,dim_security,is_etf,type_bool,PASS,0,500,0.0,,
+F132,1 Column level,dim_security,expense_ratio_bps,completeness,PASS,0,219,0.0,,
+F133,1 Column level,dim_security,expense_ratio_bps,blank_when_not_applicable,PASS,0,281,0.0,,
+F134,1 Column level,dim_security,expense_ratio_bps,type_decimal,PASS,0,219,0.0,,
+F135,1 Column level,dim_security,expense_ratio_bps,range_bound,PASS,0,219,0.0,,
+F136,1 Column level,dim_security,security_id,primary key unique,PASS,0,500,0.0,,[]
+F137,1 Column level,fact_fees,fee_id,completeness,PASS,0,122197,0.0,,
+F138,1 Column level,fact_fees,fee_id,type_int,PASS,0,122197,0.0,,
+F139,1 Column level,fact_fees,fee_id,range_bound,PASS,0,122197,0.0,,
+F140,1 Column level,fact_fees,client_id,completeness,PASS,0,122197,0.0,,
+F141,1 Column level,fact_fees,client_id,type_int,PASS,0,122197,0.0,,
+F142,1 Column level,fact_fees,client_id,range_bound,PASS,0,122197,0.0,,
+F143,1 Column level,fact_fees,advisor_id,completeness,PASS,0,122197,0.0,,
+F144,1 Column level,fact_fees,advisor_id,type_int,PASS,0,122197,0.0,,
+F145,1 Column level,fact_fees,advisor_id,range_bound,PASS,0,122197,0.0,,
+F146,1 Column level,fact_fees,fee_date,completeness,PASS,0,122197,0.0,,
+F147,1 Column level,fact_fees,fee_date,type_date,PASS,0,122197,0.0,,
+F148,1 Column level,fact_fees,fee_date,range_bound,PASS,0,122197,0.0,,
+F149,1 Column level,fact_fees,fee_type,completeness,PASS,0,122197,0.0,,
+F150,1 Column level,fact_fees,fee_type,type_text,PASS,0,122197,0.0,,
+F151,1 Column level,fact_fees,fee_type,allowed_values,PASS,0,122197,0.0,,
+F152,1 Column level,fact_fees,aum_basis,completeness,PASS,0,122197,0.0,,
+F153,1 Column level,fact_fees,aum_basis,type_decimal,PASS,0,122197,0.0,,
+F154,1 Column level,fact_fees,aum_basis,range_bound,PASS,0,122197,0.0,,
+F155,1 Column level,fact_fees,bps_charged,completeness,PASS,0,122197,0.0,,
+F156,1 Column level,fact_fees,bps_charged,type_decimal,PASS,0,122197,0.0,,
+F157,1 Column level,fact_fees,bps_charged,range_bound,PASS,0,122197,0.0,,
+F158,1 Column level,fact_fees,amount,completeness,PASS,0,122197,0.0,,
+F159,1 Column level,fact_fees,amount,type_decimal,PASS,0,122197,0.0,,
+F160,1 Column level,fact_fees,amount,range_bound,PASS,0,122197,0.0,,
+F161,1 Column level,fact_fees,fee_id,primary key unique,PASS,0,122197,0.0,,[]
+F162,1 Column level,fact_portfolio_snapshot,return_ytd,mixed value formats,WARN,435,129547,0.336,9.9:129112; 9.9%:300; 9.9A-9:111; 9A-9:24,
+F163,1 Column level,fact_portfolio_snapshot,active_alpha_ytd,mixed value formats,WARN,756,129547,0.584,9.9:128791; 9.9A-9:610; 9A-9:146,
+F164,1 Column level,fact_portfolio_snapshot,account_type,mixed value formats,INFO,76807,129547,59.289,Title:52740; digits:26882; Mixed:25005; UPPER:24920,
+F165,1 Column level,fact_portfolio_snapshot,snapshot_id,completeness,PASS,0,129547,0.0,,
+F166,1 Column level,fact_portfolio_snapshot,snapshot_id,type_int,PASS,0,129547,0.0,,
+F167,1 Column level,fact_portfolio_snapshot,snapshot_id,range_bound,PASS,0,129547,0.0,,
+F168,1 Column level,fact_portfolio_snapshot,client_id,completeness,PASS,0,129547,0.0,,
+F169,1 Column level,fact_portfolio_snapshot,client_id,type_int,PASS,0,129547,0.0,,
+F170,1 Column level,fact_portfolio_snapshot,client_id,range_bound,PASS,0,129547,0.0,,
+F171,1 Column level,fact_portfolio_snapshot,advisor_id,completeness,PASS,0,129547,0.0,,
+F172,1 Column level,fact_portfolio_snapshot,advisor_id,type_int,PASS,0,129547,0.0,,
+F173,1 Column level,fact_portfolio_snapshot,advisor_id,range_bound,PASS,0,129547,0.0,,
+F174,1 Column level,fact_portfolio_snapshot,benchmark_id,completeness,PASS,0,129547,0.0,,
+F175,1 Column level,fact_portfolio_snapshot,benchmark_id,type_int,PASS,0,129547,0.0,,
+F176,1 Column level,fact_portfolio_snapshot,benchmark_id,range_bound,PASS,0,129547,0.0,,
+F177,1 Column level,fact_portfolio_snapshot,snapshot_date,completeness,PASS,0,129547,0.0,,
+F178,1 Column level,fact_portfolio_snapshot,snapshot_date,type_date,PASS,0,129547,0.0,,
+F179,1 Column level,fact_portfolio_snapshot,snapshot_date,range_bound,PASS,0,129547,0.0,,
+F180,1 Column level,fact_portfolio_snapshot,year,completeness,PASS,0,129547,0.0,,
+F181,1 Column level,fact_portfolio_snapshot,year,type_int,PASS,0,129547,0.0,,
+F182,1 Column level,fact_portfolio_snapshot,year,range_bound,PASS,0,129547,0.0,,
+F183,1 Column level,fact_portfolio_snapshot,month,completeness,PASS,0,129547,0.0,,
+F184,1 Column level,fact_portfolio_snapshot,month,type_int,PASS,0,129547,0.0,,
+F185,1 Column level,fact_portfolio_snapshot,month,range_bound,PASS,0,129547,0.0,,
+F186,1 Column level,fact_portfolio_snapshot,aum,completeness,PASS,0,129547,0.0,,
+F187,1 Column level,fact_portfolio_snapshot,aum,type_decimal,PASS,0,129547,0.0,,
+F188,1 Column level,fact_portfolio_snapshot,aum,range_bound,PASS,0,129547,0.0,,
+F189,1 Column level,fact_portfolio_snapshot,return_ytd,completeness,PASS,0,129547,0.0,,
+F190,1 Column level,fact_portfolio_snapshot,return_ytd,type_decimal,ERROR,300,129547,0.232,,"9.28%, 19.52%, 13.35%, 4.04%, -3.18%"
+F191,1 Column level,fact_portfolio_snapshot,return_ytd,range_bound,PASS,0,129247,0.0,,
+F192,1 Column level,fact_portfolio_snapshot,benchmark_return_ytd,completeness,PASS,0,129547,0.0,,
+F193,1 Column level,fact_portfolio_snapshot,benchmark_return_ytd,type_decimal,PASS,0,129547,0.0,,
+F194,1 Column level,fact_portfolio_snapshot,benchmark_return_ytd,range_bound,PASS,0,129547,0.0,,
+F195,1 Column level,fact_portfolio_snapshot,active_alpha_ytd,completeness,PASS,0,129547,0.0,,
+F196,1 Column level,fact_portfolio_snapshot,active_alpha_ytd,type_decimal,PASS,0,129547,0.0,,
+F197,1 Column level,fact_portfolio_snapshot,cash_pct,completeness,PASS,0,129547,0.0,,
+F198,1 Column level,fact_portfolio_snapshot,cash_pct,type_decimal,PASS,0,129547,0.0,,
+F199,1 Column level,fact_portfolio_snapshot,cash_pct,range_bound,PASS,0,129547,0.0,,
+F200,1 Column level,fact_portfolio_snapshot,account_type,completeness,PASS,0,129547,0.0,,
+F201,1 Column level,fact_portfolio_snapshot,account_type,type_text,PASS,0,129547,0.0,,
+F202,1 Column level,fact_portfolio_snapshot,account_type,allowed_values,PASS,0,129547,0.0,,
+F203,1 Column level,fact_portfolio_snapshot,snapshot_id,primary key unique,PASS,0,129547,0.0,,[]
+F204,1 Column level,fact_transactions,txn_id,completeness,PASS,0,298772,0.0,,
+F205,1 Column level,fact_transactions,txn_id,type_int,PASS,0,298772,0.0,,
+F206,1 Column level,fact_transactions,txn_id,range_bound,PASS,0,298772,0.0,,
+F207,1 Column level,fact_transactions,client_id,completeness,PASS,0,298772,0.0,,
+F208,1 Column level,fact_transactions,client_id,type_int,PASS,0,298772,0.0,,
+F209,1 Column level,fact_transactions,client_id,range_bound,PASS,0,298772,0.0,,
+F210,1 Column level,fact_transactions,advisor_id,completeness,PASS,0,298772,0.0,,
+F211,1 Column level,fact_transactions,advisor_id,type_int,PASS,0,298772,0.0,,
+F212,1 Column level,fact_transactions,advisor_id,range_bound,PASS,0,298772,0.0,,
+F213,1 Column level,fact_transactions,security_id,completeness,PASS,0,197175,0.0,,
+F214,1 Column level,fact_transactions,security_id,blank_when_not_applicable,PASS,0,101597,0.0,,
+F215,1 Column level,fact_transactions,security_id,type_int,ERROR,197175,197175,100.0,,"45.0, 174.0, 478.0, 406.0, 484.0"
+F216,1 Column level,fact_transactions,security_id,range_bound,PASS,0,197175,0.0,,
+F217,1 Column level,fact_transactions,txn_date,completeness,PASS,0,298772,0.0,,
+F218,1 Column level,fact_transactions,txn_date,type_date,PASS,0,298772,0.0,,
+F219,1 Column level,fact_transactions,txn_date,range_bound,PASS,0,298772,0.0,,
+F220,1 Column level,fact_transactions,txn_type,completeness,PASS,0,298772,0.0,,
+F221,1 Column level,fact_transactions,txn_type,type_text,PASS,0,298772,0.0,,
+F222,1 Column level,fact_transactions,txn_type,allowed_values,PASS,0,298772,0.0,,
+F223,1 Column level,fact_transactions,shares,completeness,PASS,0,197175,0.0,,
+F224,1 Column level,fact_transactions,shares,blank_when_not_applicable,PASS,0,101597,0.0,,
+F225,1 Column level,fact_transactions,shares,type_decimal,PASS,0,197175,0.0,,
+F226,1 Column level,fact_transactions,shares,range_bound,ERROR,836,197175,0.424,,"-261.9719, -338.0946, -360.8407, -237.4548, -374.4641"
+F227,1 Column level,fact_transactions,price,completeness,PASS,0,197175,0.0,,
+F228,1 Column level,fact_transactions,price,blank_when_not_applicable,PASS,0,101597,0.0,,
+F229,1 Column level,fact_transactions,price,type_decimal,PASS,0,197175,0.0,,
+F230,1 Column level,fact_transactions,price,range_bound,PASS,0,197175,0.0,,
+F231,1 Column level,fact_transactions,amount,completeness,PASS,0,298772,0.0,,
+F232,1 Column level,fact_transactions,amount,type_decimal,PASS,0,298772,0.0,,
+F233,1 Column level,fact_transactions,amount,range_bound,PASS,0,298772,0.0,,
+F234,1 Column level,fact_transactions,txn_id,primary key unique,PASS,0,298772,0.0,,[]
+F235,2 Single-table,dim_advisor,(all but PK),exact duplicate rows (ignoring primary key),PASS,0,25,0.0,,[]
+F236,2 Single-table,dim_advisor,first_name+last_name,natural/business key duplicated,PASS,0,25,0.0,,[]
+F237,2 Single-table,dim_benchmark,(all but PK),exact duplicate rows (ignoring primary key),PASS,0,8,0.0,,[]
+F238,2 Single-table,dim_benchmark,name,natural/business key duplicated,PASS,0,8,0.0,,[]
+F239,2 Single-table,dim_client,(all but PK),exact duplicate rows (ignoring primary key),PASS,0,2525,0.0,,[]
+F240,2 Single-table,dim_client,first_name+zip_code+client_since+initial_aum,natural/business key duplicated,ERROR,25,2525,0.99,,"['2501', '2502', '2503']"
+F241,2 Single-table,dim_client,last_name,near-duplicates: identical except 'last_name',WARN,25,2525,0.99,25 groups; the extra copies are counted,"['Jacobson | Jacobso', 'Cooper | Coope', 'Cervantes | Cervante']"
+F242,2 Single-table,dim_client,(row rule),"client_tier matches initial_aum band (<500K Retail, <5M HNW, else UHNW)",PASS,0,2525,0.0,,[]
+F243,2 Single-table,dim_date,(all but PK),exact duplicate rows (ignoring primary key),PASS,0,1827,0.0,,[]
+F244,2 Single-table,dim_date,date,natural/business key duplicated,PASS,0,1827,0.0,,[]
+F245,2 Single-table,dim_date,(row rule),year matches date,PASS,0,1827,0.0,,[]
+F246,2 Single-table,dim_date,(row rule),quarter matches date,PASS,0,1827,0.0,,[]
+F247,2 Single-table,dim_date,(row rule),month matches date,PASS,0,1827,0.0,,[]
+F248,2 Single-table,dim_date,(row rule),month_name matches date,PASS,0,1827,0.0,,[]
+F249,2 Single-table,dim_date,(row rule),day_of_week matches date,PASS,0,1827,0.0,,[]
+F250,2 Single-table,dim_date,(row rule),week_of_year is ISO week,PASS,0,1827,0.0,,[]
+F251,2 Single-table,dim_date,(row rule),is_month_end matches date,PASS,0,1827,0.0,,[]
+F252,2 Single-table,dim_date,(row rule),is_quarter_end matches date,PASS,0,1827,0.0,,[]
+F253,2 Single-table,dim_date,(row rule),is_year_end matches date,PASS,0,1827,0.0,,[]
+F254,2 Single-table,dim_date,(row rule),is_trading_day = weekday,PASS,0,1827,0.0,,[]
+F255,2 Single-table,dim_security,(all but PK),exact duplicate rows (ignoring primary key),PASS,0,500,0.0,,[]
+F256,2 Single-table,dim_security,ticker,natural/business key duplicated,PASS,0,500,0.0,,[]
+F257,2 Single-table,dim_security,(row rule),ETFs have no sector,PASS,0,219,0.0,,[]
+F258,2 Single-table,fact_fees,(all but PK),exact duplicate rows (ignoring primary key),PASS,0,122197,0.0,,[]
+F259,2 Single-table,fact_fees,client_id+fee_date,natural/business key duplicated,PASS,0,122197,0.0,,[]
+F260,2 Single-table,fact_fees,fee_date,near-duplicates: identical except 'fee_date',WARN,1,122197,0.001,1 groups; the extra copies are counted,['2020-06-01 | 2024-04-01']
+F261,2 Single-table,fact_fees,(row rule),fee_date is first of month,PASS,0,122197,0.0,,[]
+F262,2 Single-table,fact_fees,(row rule),amount = aum_basis x bps / 10000 / 12,PASS,0,122197,0.0,,[]
+F263,2 Single-table,fact_portfolio_snapshot,(all but PK),exact duplicate rows (ignoring primary key),PASS,0,129547,0.0,,[]
+F264,2 Single-table,fact_portfolio_snapshot,client_id+snapshot_date,natural/business key duplicated,PASS,0,129547,0.0,,[]
+F265,2 Single-table,fact_portfolio_snapshot,(row rule),year/month match snapshot_date,PASS,0,129547,0.0,,[]
+F266,2 Single-table,fact_portfolio_snapshot,(row rule),snapshot_date is first of month,PASS,0,129547,0.0,,[]
+F267,2 Single-table,fact_portfolio_snapshot,(row rule),return_ytd = benchmark_return_ytd + active_alpha_ytd,PASS,0,129247,0.0,,[]
+F268,2 Single-table,fact_transactions,(all but PK),exact duplicate rows (ignoring primary key),PASS,0,298772,0.0,,[]
+F269,2 Single-table,fact_transactions,advisor_id+security_id+txn_date+txn_type+shares+price+amount,natural/business key duplicated,ERROR,200,298772,0.067,,"['298573', '298574', '298575']"
+F270,2 Single-table,fact_transactions,client_id,near-duplicates: identical except 'client_id',WARN,200,298772,0.067,200 groups; the extra copies are counted,"['16 | 2951', '24 | 3175', '24 | 2957']"
+F271,2 Single-table,fact_transactions,txn_date,near-duplicates: identical except 'txn_date',WARN,7,298772,0.002,7 groups; the extra copies are counted,"['2022-09-04 | 2022-06-18', '2021-04-01 | 2023-10-29', '2024-02-16 | 2024-08-19']"
+F272,2 Single-table,fact_transactions,amount,near-duplicates: identical except 'amount',WARN,528,298772,0.177,522 groups; the extra copies are counted,"['94893.52 | 26587.27', '69066.71 | 3981.53', '9878.81 | 5470.11']"
+F273,2 Single-table,fact_transactions,(row rule),amount = shares x price,ERROR,836,197175,0.424,,"['272', '812', '815']"
+F274,2 Single-table,fact_transactions,(row rule),amount = |shares| x price,PASS,0,197175,0.0,,[]
+F275,2 Single-table,fact_transactions,(row rule),dividend amount <= 25% of position value,WARN,53864,53864,100.0,,"['1', '7', '12']"
+F276,3 Referential integrity,dim_client,advisor_id,dim_client.advisor_id -> dim_advisor.advisor_id,PASS,0,2525,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F277,3 Referential integrity,dim_security,benchmark_id,dim_security.benchmark_id -> dim_benchmark.benchmark_id,PASS,0,500,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F278,3 Referential integrity,fact_fees,client_id,fact_fees.client_id -> dim_client.client_id,PASS,0,122197,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F279,3 Referential integrity,fact_fees,advisor_id,fact_fees.advisor_id -> dim_advisor.advisor_id,PASS,0,122197,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F280,3 Referential integrity,fact_fees,fee_date,fact_fees.fee_date -> dim_date.date,PASS,0,122197,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F281,3 Referential integrity,fact_portfolio_snapshot,client_id,fact_portfolio_snapshot.client_id -> dim_client.client_id,PASS,0,129547,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F282,3 Referential integrity,fact_portfolio_snapshot,advisor_id,fact_portfolio_snapshot.advisor_id -> dim_advisor.advisor_id,PASS,0,129547,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F283,3 Referential integrity,fact_portfolio_snapshot,benchmark_id,fact_portfolio_snapshot.benchmark_id -> dim_benchmark.benchmark_id,PASS,0,129547,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F284,3 Referential integrity,fact_portfolio_snapshot,snapshot_date,fact_portfolio_snapshot.snapshot_date -> dim_date.date,PASS,0,129547,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F285,3 Referential integrity,fact_transactions,client_id,fact_transactions.client_id -> dim_client.client_id,ERROR,200,298772,0.067,match rate 99.9331%; distinct orphan keys 200; null-key rate 0.00%,"['2702', '2704', '2708', '2714', '2715']"
+F286,3 Referential integrity,fact_transactions,advisor_id,fact_transactions.advisor_id -> dim_advisor.advisor_id,PASS,0,298772,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F287,3 Referential integrity,fact_transactions,security_id,fact_transactions.security_id -> dim_security.security_id,ERROR,197175,197175,100.0,match rate 0.0000%; distinct orphan keys 500; null-key rate 34.00%,"['1.0', '10.0', '100.0', '101.0', '102.0']"
+F288,3 Referential integrity,fact_transactions,security_id,fact_transactions.security_id -> dim_security.security_id after dropping '.0',PASS,0,197175,0.0,197175 orphans were only a number-format problem; 0 remain (true orphans),[]
+F289,3 Referential integrity,fact_transactions,txn_date,fact_transactions.txn_date -> dim_date.date,PASS,0,298772,0.0,match rate 100.0000%; distinct orphan keys 0; null-key rate 0.00%,[]
+F290,4 Cross-table,dim_benchmark ~ fact_portfolio_snapshot,,benchmarks never used as a client portfolio benchmark,INFO,5,8,62.5,,"['Bloomberg US Agg Bond', 'MSCI EAFE', 'Russell 2000', 'MSCI Emerging Markets', 'Bloomberg T-Bill 3M']"
+F291,4 Cross-table,dim_benchmark ~ facts,,benchmarks not used by any snapshot or security,INFO,1,8,12.5,,['MSCI Emerging Markets']
+F292,4 Cross-table,dim_client ~ fact_portfolio_snapshot,,is_active agrees with snapshots (active clients reported through the last month),PASS,0,2500,0.0,,
+F293,4 Cross-table,dim_client ~ facts,,"clients with no fees, snapshots or transactions",WARN,25,2525,0.99,,"['2501', '2502', '2503', '2504', '2505']"
+F294,4 Cross-table,fact_fees ~ dim_client,,fact_fees.advisor_id = dim_client.advisor_id,PASS,0,122197,0.0,,
+F295,4 Cross-table,fact_fees ~ dim_client,,fact_fees dated before client_since month,PASS,0,122197,0.0,,
+F296,4 Cross-table,fact_fees ~ fact_portfolio_snapshot,,fee aum_basis = snapshot aum for same client-month,PASS,0,122197,0.0,0 fee rows have no snapshot that month,[]
+F297,4 Cross-table,fact_portfolio_snapshot ~ dim_client,,fact_portfolio_snapshot.advisor_id = dim_client.advisor_id,PASS,0,129547,0.0,,
+F298,4 Cross-table,fact_portfolio_snapshot ~ dim_client,,snapshot account_type = client primary_account_type,PASS,0,129547,0.0,,
+F299,4 Cross-table,fact_portfolio_snapshot ~ dim_client,,"snapshot benchmark_id matches risk profile (Aggr/ModAggr->1, Balanced->3, Cons/ModCons->8)",PASS,0,125605,0.0,,
+F300,4 Cross-table,fact_portfolio_snapshot ~ dim_client,,benchmark of clients with NO risk profile,WARN,3942,3942,100.0,"75 clients without a profile; snapshot benchmark_id counts {'3': 3942}. If the profile were merely unrecorded, only ~31% would be on benchmark 3, so 3 looks like a system default, not evidence of the profile",
+F301,4 Cross-table,fact_portfolio_snapshot ~ dim_client,,fact_portfolio_snapshot dated before client_since month,PASS,0,129547,0.0,,
+F302,4 Cross-table,fact_portfolio_snapshot ~ fact_fees,,snapshot client-months with no fee charged,INFO,7350,129547,5.674,2261 clients affected,
+F303,4 Cross-table,fact_portfolio_snapshot ~ fact_transactions,,month-to-month AUM jumps > 50% are explained by net deposits/withdrawals,WARN,539,127047,0.424,correlation of monthly AUM change with net deposits-withdrawals = 0.0006; 797 jumps > 50%,
+F304,4 Cross-table,fact_transactions ~ dim_client,,fact_transactions.advisor_id = dim_client.advisor_id,PASS,0,298572,0.0,,
+F305,4 Cross-table,fact_transactions ~ dim_client,,fact_transactions dated before client_since month,PASS,0,298572,0.0,,
+F306,4 Cross-table,fact_transactions ~ dim_date,,Buy/Sell dated on a non-trading day (weekend),WARN,40649,143311,28.364,all transaction types on weekends: 84999 of 298772 (28.4%); weekends are 28.6% of calendar days,
+F307,4 Cross-table,fact_transactions ~ fact_fees,,Advisory Fee transactions = fee table amount (same client-month),WARN,28746,28746,100.0,"advisory-fee txns total $263,780,236.09 vs fee table total $204,675,583.12; 1933 txn client-months have no fee row; median txn/fee ratio 3.11",
+F308,4 Cross-table,fact_transactions ~ fact_portfolio_snapshot ~ dim_client,,transactions in a month after the client's last snapshot (closed account),WARN,2410,298572,0.807,131 clients; all inactive: True,"['1278', '1282', '1285']"
