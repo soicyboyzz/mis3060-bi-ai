@@ -85,7 +85,7 @@ Recommended default: exclude `return_ytd_suspect = 1` and `aum_at_floor = 1` fro
 | # | Limitation | Why it is not fixed |
 |---|---|---|
 | 1 | **Dividend amounts equal the full market value of the position** (`amount = shares × price` on all 53,864 dividends) | The real dividend per share is not in the data, and assuming a yield would invent income. Do not report dividend income from this table (D16). |
-| 2 | **Advisory-fee transactions do not match `fact_fees`.** No client-month agrees (median 3.11× the fee table); totals are $263.8M vs $204.7M | Different source systems. `fact_fees` reconciles 100% internally and to snapshot AUM, so use it as the system of record for fee revenue (D17). |
+| 2 | **Advisory-fee transactions do not match `fact_fees`.** No client-month agrees (median 3.11× the fee table); totals are $263.7M vs $204.7M after cleaning | Different source systems. `fact_fees` reconciles 100% internally and to snapshot AUM, so use it as the system of record for fee revenue (D17). |
 | 3 | **AUM changes are not explained by deposits/withdrawals** (correlation 0.0006) | The snapshot and transaction systems were never reconciled. Flow-adjusted performance cannot be computed (D27). |
 | 4 | **`return_ytd` is not flow-adjusted** (raw AUM change), which produces extreme values | No source has the true return. The worst 1,475 are flagged (D23). |
 | 5 | **75 clients have no risk profile**, and their benchmark is a default | Filling it would invent a suitability classification (D03). |
