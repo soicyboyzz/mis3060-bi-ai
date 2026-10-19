@@ -27,9 +27,9 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | Field | Entry |
 |---|---|
 | **Table / column** | `dim_client` (all columns; `client_id` 2501–2525) |
-| **Evidence** | F240/F241: 25 rows share first name, ZIP, `client_since` and `initial_aum` (to the cent) with an earlier client. The only difference is a last name missing its final letter (`Lopez` → `Lope`, `Taylor` → `Taylo`). F293: none of the 25 has a single fee, snapshot or transaction. |
+| **Evidence** | F240/F241: 25 rows share first name, ZIP, `client_since` and `initial_aum` (to the cent) with an earlier client. The only difference is the last letter of the last name: 23 copies drop it (`Lopez` → `Lope`, `Taylor` → `Taylo`) and 2 add one (`Pace` → `Pacen`, `Lee` → `Leen`). F293: none of the 25 has a single fee, snapshot or transaction. |
 | **Dimension violated** | Uniqueness |
-| **Decision** | **Quarantine** the 25 copies (`quarantine_dim_client_duplicates.csv`, with the `client_id` of the original they duplicate). Before removing them, assert that (a) each copy matches its original on every column except `client_id` and `last_name`, (b) the copy's last name is the original's last name minus its final letter, and (c) no fact row references the copy. |
+| **Decision** | **Quarantine** the 25 copies (`quarantine_dim_client_duplicates.csv`, with the `client_id` of the original they duplicate). Before removing them, assert that (a) each copy matches its original on every column except `client_id` and `last_name`, (b) the copy's last name differs from the original's only by one letter dropped from or added to the end, and (c) no fact row references the copy. |
 | **Justification** | One person counted twice inflates client counts (2,525 instead of 2,500) and the advisor's book. The original row holds the full name and all the activity. |
 | **Risk** | If a "copy" is really a different person (e.g., a relative with the same first name and ZIP who opened an account the same day with the same balance to the cent), we drop a real client. This is very unlikely, and since the copies have no activity, no revenue or AUM is lost. |
 
@@ -39,7 +39,7 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | **Table / column** | `dim_client.state` |
 | **Evidence** | F054: 78 of 2,525 values are not USPS codes: Pennsylvania 25, Florida 15, New York 14, New Jersey 13, California 5, Illinois 4, Texas 2. Every other value is a valid 2-letter code. |
 | **Dimension violated** | Consistency, Validity |
-| **Decision** | **Standardize** to the 2-letter USPS code with an explicit name→code map. Assert that every value afterwards is in the USPS list and that each changed value maps back to its original name. |
+| **Decision** | **Standardize** to the 2-letter USPS code with an explicit name→code map. (77 rows change in practice, because one of the 78 belongs to a D01 duplicate that is quarantined first.) Assert that every value afterwards is in the USPS list and that each changed value maps back to its original name. |
 | **Justification** | A state slicer would show "PA" and "Pennsylvania" as two states and split Pennsylvania's count (414 + 25). The mapping is unambiguous. |
 | **Risk** | Practically none. The map is a fixed standard, and an unmapped name would stop the script. |
 
@@ -69,7 +69,7 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | **Table / column** | `fact_transactions.shares` (`txn_type = Buy`) |
 | **Evidence** | F226: 836 negative values, all on Buys (no Sell or Dividend is negative). F273: `amount = shares × price` fails on exactly these 836 rows, but `amount = |shares| × price` holds on all 836 (F274 passes). `amount` is positive in every row. |
 | **Dimension violated** | Validity (sign rule), Consistency |
-| **Decision** | **Convert** to the absolute value. Reconcile instead of guessing: assert that after the change `round(shares × price, 2) = amount` for all 197,175 security transactions. |
+| **Decision** | **Convert** to the absolute value. (835 rows change in practice, because one of the 836 is a D12 orphan copy that is quarantined first.) Reconcile instead of guessing: assert that after the change `round(shares × price, 2) = amount` for all 197,175 security transactions. |
 | **Justification** | The amount and price are both positive and agree with the absolute share count, so the minus sign is the only wrong field. Negative Buy shares would subtract from holdings in any position calculation. |
 | **Risk** | If some of these were really reversals (cancelled buys), flipping the sign adds shares that were given back. The data has no reversal type and the amount is positive, so a sign error is the best-supported reading. Every change is in `value_changes.csv` and can be undone. |
 
@@ -103,7 +103,7 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | **Table / column** | `fact_transactions.txn_date` × `dim_date.is_trading_day` |
 | **Evidence** | F306: 40,649 of 143,311 Buys and Sells fall on a Saturday or Sunday. Across all types, 28.4% of transactions are on weekends, almost exactly the 28.6% share of weekend days. Dates were assigned with no regard to market days. |
 | **Dimension violated** | Accuracy/Plausibility |
-| **Decision** | **Flag** with `trade_on_non_trading_day` (Buys/Sells only). Keep the dates. |
+| **Decision** | **Flag** with `trade_on_non_trading_day` (Buys/Sells only). Keep the dates. (40,630 rows after D12; 19 of the 40,649 are quarantined orphan copies.) |
 | **Justification** | Exchanges are closed on weekends, so these dates are wrong. But the true trade date can't be recovered (Friday? Monday?). Moving them would invent data. Deposits, withdrawals and fees can legitimately post on weekends, so they are not flagged. |
 | **Risk** | Daily trading-volume visuals will show weekend activity. Monthly and yearly totals are unaffected. |
 
@@ -133,7 +133,7 @@ This log is the specification for `scripts/02_clean.py`. Each entry is one issue
 | **Table / column** | `fact_portfolio_snapshot.return_ytd` (and therefore `active_alpha_ytd`) |
 | **Evidence** | 976 snapshots show a YTD return above +100% (max 94.67, i.e. +9,467%), and 497 below −90%: 1,473 rows, 178 clients. These months coincide with AUM jumping or collapsing (F303: 797 month-over-month AUM moves > 50%). The correlation between monthly AUM change and that month's net deposits/withdrawals is **0.0006**, so the jumps are not explained by recorded cash flows. The return appears to be computed from raw AUM change, not flow-adjusted. |
 | **Dimension violated** | Accuracy/Plausibility |
-| **Decision** | **Flag** with `return_ytd_suspect` (return > 1.0 or < −0.9). Keep the values. They are internally consistent (return = benchmark + alpha holds). |
+| **Decision** | **Flag** with `return_ytd_suspect` (return > 1.0 or < −0.9). Keep the values. (Applied after D20, so two converted percent values are included: 977 + 498 = 1,475 rows.) They are internally consistent (return = benchmark + alpha holds). |
 | **Justification** | No other source gives the true return. Recomputing a flow-adjusted return is impossible because transactions do not reconcile to AUM (see D27). |
 | **Risk** | Averages of return or alpha by advisor will be dominated by these rows if they aren't filtered. Medians are safer. |
 

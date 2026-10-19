@@ -611,3 +611,13 @@ def cross_table_checks(T):
         f"correlation of monthly AUM change with net deposits-withdrawals = {corr:.4f}; "
         f"{len(jumps)} jumps > 50%")
     return out
+
+
+def load_ri_function():
+    """Return check_referential_integrity() from 03_validate.py (the one copy)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "validate_mod", Path(__file__).resolve().parent / "03_validate.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.check_referential_integrity

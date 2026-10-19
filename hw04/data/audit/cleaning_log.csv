@@ -1,0 +1,17 @@
+table,decision_id,issue,action,rows_affected,note
+dim_client,D01,"25 near-duplicate clients (last name off by one letter, no activity)",quarantine,25,quarantine_dim_client_duplicates.csv keeps original_client_id
+dim_client,D02,full state names among USPS codes (78 in raw; 1 was on a quarantined duplicate),standardize,77,explicit name->code map; round-trip verified
+dim_client,D03,"blank risk_profile (benchmark 3 is a default, not evidence)",flag risk_profile_missing,75,values left blank
+fact_transactions,D11,security_id stored as decimal text breaks join,convert to integer text,197175,every fractional part was .0 (asserted)
+fact_transactions,D12,200 transactions with client_id not in dim_client,quarantine,200,each is a verified copy of a valid transaction
+fact_transactions,D13,"Buys with negative shares (amount = |shares| x price); 836 in raw, 1 was a quarantined copy",convert to absolute value,835,amount reconciliation asserted on all security rows
+fact_portfolio_snapshot,D20,return_ytd stored as percent text,"convert (recompute benchmark + alpha, confirmed by percent/100)",300,
+fact_transactions,D14,Buy/Sell on weekend,flag trade_on_non_trading_day,40630,
+fact_transactions,D15,transactions after client's last snapshot (inactive),flag after_account_closed,2410,
+fact_portfolio_snapshot,D22,"AUM at $1,000 floor",flag aum_at_floor,420,
+fact_fees,D22,"fee basis at $1,000 floor",flag aum_basis_at_floor,386,
+fact_portfolio_snapshot,D23,YTD return > +100% or < -90%,flag return_ytd_suspect,1475,
+dim_advisor,-,no defects requiring change,none,0,passed through unchanged
+dim_benchmark,-,no defects requiring change,none,0,passed through unchanged
+dim_date,-,no defects requiring change,none,0,passed through unchanged
+dim_security,-,no defects requiring change,none,0,passed through unchanged
