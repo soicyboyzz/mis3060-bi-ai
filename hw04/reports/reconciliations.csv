@@ -1,0 +1,11 @@
+stage,reconciliation,rows_compared,rows_matching,match_pct,stored_total,recomputed_total,difference,note
+raw,R1 fact_transactions: amount vs shares x price (Buy/Sell/Dividend),197175,196339,99.576,12579735404.24,12475688405.15,104046999.09,
+raw,R2 fact_fees: amount vs aum_basis x bps / 10000 / 12,122197,122197,100.0,204675583.12,204675583.12,0.0,
+raw,R3 fact_fees.aum_basis vs fact_portfolio_snapshot.aum (same client-month),122197,122197,100.0,538491810665.51,538491810665.51,0.0,0 fee rows without a snapshot
+raw,R4 fact_portfolio_snapshot: return_ytd vs benchmark_return_ytd + active_alpha_ytd,129547,129247,99.7684,14788.25,14811.48,-23.23,300 return values not numeric
+raw,R5 Advisory Fee transactions vs fact_fees (same client-month),28746,0,0.0,263780236.09,204675583.12,59104652.97,different source systems; fact_fees is the system of record (D17)
+clean,R1 fact_transactions: amount vs shares x price (Buy/Sell/Dividend),197044,197044,100.0,12571369932.59,12571369932.46,0.13,
+clean,R2 fact_fees: amount vs aum_basis x bps / 10000 / 12,122197,122197,100.0,204675583.12,204675583.12,0.0,
+clean,R3 fact_fees.aum_basis vs fact_portfolio_snapshot.aum (same client-month),122197,122197,100.0,538491810665.51,538491810665.51,0.0,0 fee rows without a snapshot
+clean,R4 fact_portfolio_snapshot: return_ytd vs benchmark_return_ytd + active_alpha_ytd,129547,129547,100.0,14811.47,14811.48,-0.0,0 return values not numeric
+clean,R5 Advisory Fee transactions vs fact_fees (same client-month),28746,0,0.0,263709737.13,204675583.12,59034154.01,different source systems; fact_fees is the system of record (D17)

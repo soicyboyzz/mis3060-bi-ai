@@ -1,0 +1,163 @@
+stage,table,column,rule,checked,failed,examples,pass_rate_pct
+raw,dim_advisor,advisor_id,range_bound,25,0,,100.0
+raw,dim_advisor,region,allowed_values,25,0,,100.0
+raw,dim_advisor,years_experience,range_bound,25,0,,100.0
+raw,dim_advisor,aum_target_mm,range_bound,25,0,,100.0
+raw,dim_advisor,certifications,format_pattern,25,0,,100.0
+raw,dim_benchmark,benchmark_id,range_bound,8,0,,100.0
+raw,dim_benchmark,asset_class,allowed_values,8,0,,100.0
+raw,dim_benchmark,ticker_proxy,format_pattern,8,0,,100.0
+raw,dim_client,client_id,range_bound,2525,0,,100.0
+raw,dim_client,age,range_bound,2525,0,,100.0
+raw,dim_client,state,allowed_values,2525,78,"Pennsylvania, New York, New Jersey, Illinois, California",96.911
+raw,dim_client,zip_code,format_pattern,2525,0,,100.0
+raw,dim_client,risk_profile,allowed_values,2449,0,,100.0
+raw,dim_client,client_tier,allowed_values,2525,0,,100.0
+raw,dim_client,primary_account_type,allowed_values,2525,0,,100.0
+raw,dim_client,initial_aum,range_bound,2525,0,,100.0
+raw,dim_client,client_since,range_bound,2525,0,,100.0
+raw,dim_client,advisor_id,range_bound,2525,0,,100.0
+raw,dim_client,(row rule),"client_tier matches initial_aum band (<500K Retail, <5M HNW, else UHNW)",2525,0,,100.0
+raw,dim_date,date_id,range_bound,1827,0,,100.0
+raw,dim_date,date,range_bound,1827,0,,100.0
+raw,dim_date,year,range_bound,1827,0,,100.0
+raw,dim_date,quarter,range_bound,1827,0,,100.0
+raw,dim_date,month,range_bound,1827,0,,100.0
+raw,dim_date,month_name,allowed_values,1827,0,,100.0
+raw,dim_date,week_of_year,range_bound,1827,0,,100.0
+raw,dim_date,day_of_week,allowed_values,1827,0,,100.0
+raw,dim_date,(row rule),year matches date,1827,0,,100.0
+raw,dim_date,(row rule),quarter matches date,1827,0,,100.0
+raw,dim_date,(row rule),month matches date,1827,0,,100.0
+raw,dim_date,(row rule),month_name matches date,1827,0,,100.0
+raw,dim_date,(row rule),day_of_week matches date,1827,0,,100.0
+raw,dim_date,(row rule),week_of_year is ISO week,1827,0,,100.0
+raw,dim_date,(row rule),is_month_end matches date,1827,0,,100.0
+raw,dim_date,(row rule),is_quarter_end matches date,1827,0,,100.0
+raw,dim_date,(row rule),is_year_end matches date,1827,0,,100.0
+raw,dim_date,(row rule),is_trading_day = weekday,1827,0,,100.0
+raw,dim_security,security_id,range_bound,500,0,,100.0
+raw,dim_security,ticker,format_pattern,500,0,,100.0
+raw,dim_security,asset_class,allowed_values,500,0,,100.0
+raw,dim_security,sector,allowed_values,281,0,,100.0
+raw,dim_security,benchmark_id,range_bound,500,0,,100.0
+raw,dim_security,expense_ratio_bps,range_bound,219,0,,100.0
+raw,dim_security,(row rule),ETFs have no sector,219,0,,100.0
+raw,fact_fees,fee_id,range_bound,122197,0,,100.0
+raw,fact_fees,client_id,range_bound,122197,0,,100.0
+raw,fact_fees,advisor_id,range_bound,122197,0,,100.0
+raw,fact_fees,fee_date,range_bound,122197,0,,100.0
+raw,fact_fees,fee_type,allowed_values,122197,0,,100.0
+raw,fact_fees,aum_basis,range_bound,122197,0,,100.0
+raw,fact_fees,bps_charged,range_bound,122197,0,,100.0
+raw,fact_fees,amount,range_bound,122197,0,,100.0
+raw,fact_fees,(row rule),fee_date is first of month,122197,0,,100.0
+raw,fact_fees,(row rule),amount = aum_basis x bps / 10000 / 12,122197,0,,100.0
+raw,fact_portfolio_snapshot,snapshot_id,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,client_id,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,advisor_id,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,benchmark_id,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,snapshot_date,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,year,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,month,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,aum,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,return_ytd,range_bound,129247,0,,100.0
+raw,fact_portfolio_snapshot,benchmark_return_ytd,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,cash_pct,range_bound,129547,0,,100.0
+raw,fact_portfolio_snapshot,account_type,allowed_values,129547,0,,100.0
+raw,fact_portfolio_snapshot,(row rule),year/month match snapshot_date,129547,0,,100.0
+raw,fact_portfolio_snapshot,(row rule),snapshot_date is first of month,129547,0,,100.0
+raw,fact_portfolio_snapshot,(row rule),return_ytd = benchmark_return_ytd + active_alpha_ytd,129247,0,,100.0
+raw,fact_transactions,txn_id,range_bound,298772,0,,100.0
+raw,fact_transactions,client_id,range_bound,298772,0,,100.0
+raw,fact_transactions,advisor_id,range_bound,298772,0,,100.0
+raw,fact_transactions,security_id,range_bound,197175,0,,100.0
+raw,fact_transactions,txn_date,range_bound,298772,0,,100.0
+raw,fact_transactions,txn_type,allowed_values,298772,0,,100.0
+raw,fact_transactions,shares,range_bound,197175,836,"-261.9719, -338.0946, -360.8407, -237.4548, -374.4641",99.576
+raw,fact_transactions,price,range_bound,197175,0,,100.0
+raw,fact_transactions,amount,range_bound,298772,0,,100.0
+raw,fact_transactions,(row rule),amount = shares x price,197175,836,,99.576
+raw,fact_transactions,(row rule),amount = |shares| x price,197175,0,,100.0
+raw,fact_transactions,(row rule),dividend amount <= 25% of position value,53864,53864,,0.0
+clean,dim_advisor,advisor_id,range_bound,25,0,,100.0
+clean,dim_advisor,region,allowed_values,25,0,,100.0
+clean,dim_advisor,years_experience,range_bound,25,0,,100.0
+clean,dim_advisor,aum_target_mm,range_bound,25,0,,100.0
+clean,dim_advisor,certifications,format_pattern,25,0,,100.0
+clean,dim_benchmark,benchmark_id,range_bound,8,0,,100.0
+clean,dim_benchmark,asset_class,allowed_values,8,0,,100.0
+clean,dim_benchmark,ticker_proxy,format_pattern,8,0,,100.0
+clean,dim_client,client_id,range_bound,2500,0,,100.0
+clean,dim_client,age,range_bound,2500,0,,100.0
+clean,dim_client,state,allowed_values,2500,0,,100.0
+clean,dim_client,zip_code,format_pattern,2500,0,,100.0
+clean,dim_client,risk_profile,allowed_values,2425,0,,100.0
+clean,dim_client,client_tier,allowed_values,2500,0,,100.0
+clean,dim_client,primary_account_type,allowed_values,2500,0,,100.0
+clean,dim_client,initial_aum,range_bound,2500,0,,100.0
+clean,dim_client,client_since,range_bound,2500,0,,100.0
+clean,dim_client,advisor_id,range_bound,2500,0,,100.0
+clean,dim_client,(row rule),"client_tier matches initial_aum band (<500K Retail, <5M HNW, else UHNW)",2500,0,,100.0
+clean,dim_date,date_id,range_bound,1827,0,,100.0
+clean,dim_date,date,range_bound,1827,0,,100.0
+clean,dim_date,year,range_bound,1827,0,,100.0
+clean,dim_date,quarter,range_bound,1827,0,,100.0
+clean,dim_date,month,range_bound,1827,0,,100.0
+clean,dim_date,month_name,allowed_values,1827,0,,100.0
+clean,dim_date,week_of_year,range_bound,1827,0,,100.0
+clean,dim_date,day_of_week,allowed_values,1827,0,,100.0
+clean,dim_date,(row rule),year matches date,1827,0,,100.0
+clean,dim_date,(row rule),quarter matches date,1827,0,,100.0
+clean,dim_date,(row rule),month matches date,1827,0,,100.0
+clean,dim_date,(row rule),month_name matches date,1827,0,,100.0
+clean,dim_date,(row rule),day_of_week matches date,1827,0,,100.0
+clean,dim_date,(row rule),week_of_year is ISO week,1827,0,,100.0
+clean,dim_date,(row rule),is_month_end matches date,1827,0,,100.0
+clean,dim_date,(row rule),is_quarter_end matches date,1827,0,,100.0
+clean,dim_date,(row rule),is_year_end matches date,1827,0,,100.0
+clean,dim_date,(row rule),is_trading_day = weekday,1827,0,,100.0
+clean,dim_security,security_id,range_bound,500,0,,100.0
+clean,dim_security,ticker,format_pattern,500,0,,100.0
+clean,dim_security,asset_class,allowed_values,500,0,,100.0
+clean,dim_security,sector,allowed_values,281,0,,100.0
+clean,dim_security,benchmark_id,range_bound,500,0,,100.0
+clean,dim_security,expense_ratio_bps,range_bound,219,0,,100.0
+clean,dim_security,(row rule),ETFs have no sector,219,0,,100.0
+clean,fact_fees,fee_id,range_bound,122197,0,,100.0
+clean,fact_fees,client_id,range_bound,122197,0,,100.0
+clean,fact_fees,advisor_id,range_bound,122197,0,,100.0
+clean,fact_fees,fee_date,range_bound,122197,0,,100.0
+clean,fact_fees,fee_type,allowed_values,122197,0,,100.0
+clean,fact_fees,aum_basis,range_bound,122197,0,,100.0
+clean,fact_fees,bps_charged,range_bound,122197,0,,100.0
+clean,fact_fees,amount,range_bound,122197,0,,100.0
+clean,fact_fees,(row rule),fee_date is first of month,122197,0,,100.0
+clean,fact_fees,(row rule),amount = aum_basis x bps / 10000 / 12,122197,0,,100.0
+clean,fact_portfolio_snapshot,snapshot_id,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,client_id,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,advisor_id,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,benchmark_id,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,snapshot_date,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,year,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,month,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,aum,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,return_ytd,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,benchmark_return_ytd,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,cash_pct,range_bound,129547,0,,100.0
+clean,fact_portfolio_snapshot,account_type,allowed_values,129547,0,,100.0
+clean,fact_portfolio_snapshot,(row rule),year/month match snapshot_date,129547,0,,100.0
+clean,fact_portfolio_snapshot,(row rule),snapshot_date is first of month,129547,0,,100.0
+clean,fact_portfolio_snapshot,(row rule),return_ytd = benchmark_return_ytd + active_alpha_ytd,129547,0,,100.0
+clean,fact_transactions,txn_id,range_bound,298572,0,,100.0
+clean,fact_transactions,client_id,range_bound,298572,0,,100.0
+clean,fact_transactions,advisor_id,range_bound,298572,0,,100.0
+clean,fact_transactions,security_id,range_bound,197044,0,,100.0
+clean,fact_transactions,txn_date,range_bound,298572,0,,100.0
+clean,fact_transactions,txn_type,allowed_values,298572,0,,100.0
+clean,fact_transactions,shares,range_bound,197044,0,,100.0
+clean,fact_transactions,price,range_bound,197044,0,,100.0
+clean,fact_transactions,amount,range_bound,298572,0,,100.0
+clean,fact_transactions,(row rule),amount = shares x price,197044,0,,100.0
+clean,fact_transactions,(row rule),amount = |shares| x price,197044,0,,100.0
+clean,fact_transactions,(row rule),dividend amount <= 25% of position value,53826,53826,,0.0
