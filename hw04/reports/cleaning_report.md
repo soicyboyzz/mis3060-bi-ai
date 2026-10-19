@@ -66,4 +66,4 @@ Transaction rule pass stays at 98.1% because the dividend plausibility rule fail
 - **Calendar:** `is_trading_day` treats market holidays as trading days.
 
 ---
-*AI-assisted report — reviewed for factual accuracy on [date] by Aiden James Dumm*
+*AI-assisted report — reviewed for factual accuracy on October 19, 2026 by Aiden James Dumm*
