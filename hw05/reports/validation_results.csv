@@ -1,0 +1,93 @@
+section,check,status,actual,expected
+1 counts,dim_advisor rows x cols,PASS,25 x 7,25 x 7
+1 counts,dim_benchmark rows x cols,PASS,8 x 4,8 x 4
+1 counts,dim_client rows x cols,PASS,"2,500 x 14","2,500 x 14"
+1 counts,dim_date rows x cols,PASS,"1,827 x 12","1,827 x 12"
+1 counts,dim_security rows x cols,PASS,500 x 8,500 x 8
+1 counts,fact_fees rows x cols,PASS,"122,197 x 8","122,197 x 8"
+1 counts,fact_portfolio_snapshot rows x cols,PASS,"129,547 x 14","129,547 x 14"
+1 counts,fact_transactions rows x cols,PASS,"298,572 x 10","298,572 x 10"
+2 primary keys,dim_advisor[advisor_id] blank / non-integer / duplicate,PASS,0 / 0 / 0,0 / 0 / 0
+2 primary keys,dim_benchmark[benchmark_id] blank / non-integer / duplicate,PASS,0 / 0 / 0,0 / 0 / 0
+2 primary keys,dim_client[client_id] blank / non-integer / duplicate,PASS,0 / 0 / 0,0 / 0 / 0
+2 primary keys,dim_date[date_id] blank / non-integer / duplicate,PASS,0 / 0 / 0,0 / 0 / 0
+2 primary keys,dim_security[security_id] blank / non-integer / duplicate,PASS,0 / 0 / 0,0 / 0 / 0
+2 primary keys,fact_fees[fee_id] blank / non-integer / duplicate,PASS,0 / 0 / 0,0 / 0 / 0
+2 primary keys,fact_portfolio_snapshot[snapshot_id] blank / non-integer / duplicate,PASS,0 / 0 / 0,0 / 0 / 0
+2 primary keys,fact_transactions[txn_id] blank / non-integer / duplicate,PASS,0 / 0 / 0,0 / 0 / 0
+2 primary keys,dim_date[date] unique (alternate key used for joins),PASS,0 duplicates,0 duplicates
+3 foreign keys,dim_client[advisor_id] -> dim_advisor[advisor_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,dim_client[advisor_id] -> dim_advisor[advisor_id]: blank keys,PASS,0,0
+3 foreign keys,dim_client[advisor_id] -> dim_advisor[advisor_id]: share of dim_advisor keys used by dim_client,INFO,25 of 25,
+3 foreign keys,dim_security[benchmark_id] -> dim_benchmark[benchmark_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,dim_security[benchmark_id] -> dim_benchmark[benchmark_id]: blank keys,PASS,0,0
+3 foreign keys,dim_security[benchmark_id] -> dim_benchmark[benchmark_id]: share of dim_benchmark keys used by dim_security,INFO,6 of 8,
+3 foreign keys,fact_transactions[client_id] -> dim_client[client_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_transactions[client_id] -> dim_client[client_id]: blank keys,PASS,0,0
+3 foreign keys,fact_transactions[client_id] -> dim_client[client_id]: share of dim_client keys used by fact_transactions,INFO,2500 of 2500,
+3 foreign keys,fact_transactions[advisor_id] -> dim_advisor[advisor_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_transactions[advisor_id] -> dim_advisor[advisor_id]: blank keys,PASS,0,0
+3 foreign keys,fact_transactions[advisor_id] -> dim_advisor[advisor_id]: share of dim_advisor keys used by fact_transactions,INFO,25 of 25,
+3 foreign keys,fact_transactions[security_id] -> dim_security[security_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_transactions[security_id] -> dim_security[security_id]: blank keys,PASS,"101,528",allowed (cash rows)
+3 foreign keys,fact_transactions[security_id] -> dim_security[security_id]: share of dim_security keys used by fact_transactions,INFO,500 of 500,
+3 foreign keys,fact_transactions[txn_date] -> dim_date[date]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_transactions[txn_date] -> dim_date[date]: blank keys,PASS,0,0
+3 foreign keys,fact_transactions[txn_date] -> dim_date[date]: share of dim_date keys used by fact_transactions,INFO,1826 of 1827,
+3 foreign keys,fact_fees[client_id] -> dim_client[client_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_fees[client_id] -> dim_client[client_id]: blank keys,PASS,0,0
+3 foreign keys,fact_fees[client_id] -> dim_client[client_id]: share of dim_client keys used by fact_fees,INFO,2500 of 2500,
+3 foreign keys,fact_fees[advisor_id] -> dim_advisor[advisor_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_fees[advisor_id] -> dim_advisor[advisor_id]: blank keys,PASS,0,0
+3 foreign keys,fact_fees[advisor_id] -> dim_advisor[advisor_id]: share of dim_advisor keys used by fact_fees,INFO,25 of 25,
+3 foreign keys,fact_fees[fee_date] -> dim_date[date]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_fees[fee_date] -> dim_date[date]: blank keys,PASS,0,0
+3 foreign keys,fact_fees[fee_date] -> dim_date[date]: share of dim_date keys used by fact_fees,INFO,60 of 1827,
+3 foreign keys,fact_portfolio_snapshot[client_id] -> dim_client[client_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_portfolio_snapshot[client_id] -> dim_client[client_id]: blank keys,PASS,0,0
+3 foreign keys,fact_portfolio_snapshot[client_id] -> dim_client[client_id]: share of dim_client keys used by fact_portfolio_snapshot,INFO,2500 of 2500,
+3 foreign keys,fact_portfolio_snapshot[advisor_id] -> dim_advisor[advisor_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_portfolio_snapshot[advisor_id] -> dim_advisor[advisor_id]: blank keys,PASS,0,0
+3 foreign keys,fact_portfolio_snapshot[advisor_id] -> dim_advisor[advisor_id]: share of dim_advisor keys used by fact_portfolio_snapshot,INFO,25 of 25,
+3 foreign keys,fact_portfolio_snapshot[benchmark_id] -> dim_benchmark[benchmark_id]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_portfolio_snapshot[benchmark_id] -> dim_benchmark[benchmark_id]: blank keys,PASS,0,0
+3 foreign keys,fact_portfolio_snapshot[benchmark_id] -> dim_benchmark[benchmark_id]: share of dim_benchmark keys used by fact_portfolio_snapshot,INFO,3 of 8,
+3 foreign keys,fact_portfolio_snapshot[snapshot_date] -> dim_date[date]: orphan rows (distinct keys),PASS,0 (0),0 (0)
+3 foreign keys,fact_portfolio_snapshot[snapshot_date] -> dim_date[date]: blank keys,PASS,0,0
+3 foreign keys,fact_portfolio_snapshot[snapshot_date] -> dim_date[date]: share of dim_date keys used by fact_portfolio_snapshot,INFO,60 of 1827,
+3 foreign keys,blank security_id only on Deposit/Withdrawal/Advisory Fee,PASS,"Advisory Fee 35,742, Deposit 35,956, Withdrawal 29,830","cash types only, and every cash row blank"
+3 foreign keys,every Buy/Sell/Dividend row has a security_id,PASS,"Buy 83,498, Dividend 53,826, Sell 59,720","Buy, Dividend, Sell"
+3 foreign keys,cash rows also have blank shares and price,PASS,0 cash rows with shares/price,0
+4 dates,"dim_date[date] contiguous, one row per day",PASS,"2020-01-01 to 2024-12-31, 0 gaps",no gaps
+4 dates,"dim_date[date_id] is a row number 1..n, not a date",PASS,1..1827,1..1827
+4 dates,fact_transactions[txn_date] values that would match dim_date[date_id],PASS,"0 of 298,572","0 (join on date, not date_id)"
+4 dates,fact_transactions[txn_date] range,INFO,2020-01-01 to 2024-12-30,
+4 dates,fact_fees[fee_date] values that would match dim_date[date_id],PASS,"0 of 122,197","0 (join on date, not date_id)"
+4 dates,fact_fees[fee_date] range,INFO,2020-01-01 to 2024-12-01,
+4 dates,fact_portfolio_snapshot[snapshot_date] values that would match dim_date[date_id],PASS,"0 of 129,547","0 (join on date, not date_id)"
+4 dates,fact_portfolio_snapshot[snapshot_date] range,INFO,2020-01-01 to 2024-12-01,
+4 dates,fact_fees[fee_date] always the 1st of the month,PASS,0 rows on another day,0
+4 dates,fact_portfolio_snapshot[snapshot_date] always the 1st of the month,PASS,0 rows on another day,0
+4 dates,dim_date[is_month_end] on any 1st-of-month date,INFO,0 (so month-end flags never select a snapshot row),
+4 dates,dim_client[client_since] outside dim_date range,INFO,"1,532 of 2,500 (2015-01-01 to 2022-12-30)",reason client_since gets no relationship
+5 grain,fact_transactions unique on (txn_id),PASS,0 duplicates,0
+5 grain,"fact_fees unique on (client_id, fee_date)",PASS,0 duplicates,0
+5 grain,"fact_portfolio_snapshot unique on (client_id, snapshot_date)",PASS,0 duplicates,0
+5 grain,"fact_transactions rows repeating (client, date, type, security)",INFO,"622 (why txn_id, not a column combination, defines the grain)",
+5 grain,clients with more than one benchmark_id across their snapshots,PASS,0,"0 (snapshot is per client, not per account)"
+5 grain,clients with more than one account_type across their snapshots,PASS,0,"0 (snapshot is per client, not per account)"
+5 grain,clients with more than one advisor_id across their snapshots,PASS,0,"0 (snapshot is per client, not per account)"
+5 grain,snapshot year/month agree with snapshot_date,PASS,0 mismatches,0
+6 evidence,fact_transactions[advisor_id] differs from dim_client[advisor_id],PASS,0 rows,0 (both advisor paths give the same answer)
+6 evidence,fact_fees[advisor_id] differs from dim_client[advisor_id],PASS,0 rows,0 (both advisor paths give the same answer)
+6 evidence,fact_portfolio_snapshot[advisor_id] differs from dim_client[advisor_id],PASS,0 rows,0 (both advisor paths give the same answer)
+6 evidence,"fee amount = aum_basis x bps_charged / 10,000 / 12",PASS,0 rows off by more than 1 cent,0
+6 evidence,fee aum_basis equals that client-month's snapshot aum,PASS,"122,197 of 122,197","122,197"
+6 evidence,snapshot client-months with no fee row,INFO,"7,350",
+6 evidence,active_alpha_ytd = return_ytd - benchmark_return_ytd,PASS,0 rows off,0
+6 evidence,Buy/Sell/Dividend amount = shares x price,PASS,0 rows off by more than 1 cent,0
+6 evidence,transaction amounts stored as positive numbers,INFO,0 negative (direction comes from txn_type only),
+6 evidence,2024 AUM: sum of 12 months vs December snapshot,INFO,"$135,459,843,784 vs $12,729,572,079 (10.6x)",semi-additive over time
+6 evidence,mean |return_ytd| in January vs December,INFO,"5.06% vs 32.11% (year-to-date, restarts each January)","cumulative, not monthly"
+6 evidence,Advisory Fee transactions vs fact_fees amount,INFO,"$263,709,737.13 vs $204,675,583.12",different processes: do not add them together
+6 evidence,is_post_departure_txn rows belong to inactive clients,PASS,"2,410 of 2,410","2,410"

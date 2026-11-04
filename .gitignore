@@ -54,3 +54,6 @@ Claude outputs/
 # HW4: commit the raw, clean, audit and report CSVs
 !hw04/**/*.csv
 hw04/scripts/__pycache__/
+
+# HW5: commit the eight source CSVs and the validation report
+!hw05/**/*.csv
