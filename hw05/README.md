@@ -16,7 +16,7 @@ hw05/
 ├── reports/
 │   └── validation_results.csv one row per check (section, check, PASS/FAIL/INFO, actual, expected)
 └── powerbi/
-    ├── hw05.pbix              Part D model (8 tables, 13 relationships, dim_date marked)
+    ├── hw05.pbix              Part D model (8 tables, 13 relationships, dim_date marked, check visuals on page 1)
     ├── model_view.png         Model view screenshot
     └── build_steps.md         the click-by-click checklist used to build the model
 ```
@@ -42,7 +42,7 @@ It exits with code 1 if any check fails. `python hw05/scripts/validate_star.py p
 | Primary keys | 8 of 8 unique, no blanks, whole numbers |
 | Foreign keys | 13 of 13 with 0 orphans; only `fact_transactions[security_id]` has blanks (101,528 cash rows, by design) |
 | Grains | transactions: `txn_id`; fees: (client, month); snapshot: (client, month), each 0 duplicates |
-| Power BI | 12 active relationships, 1 inactive (`dim_client → dim_advisor`), all *:1 single-direction; `dim_date` marked on `date` |
+| Power BI | 12 active relationships, 1 inactive (`dim_client → dim_advisor`), all *:1 single-direction; `dim_date` marked on `date`; report page 1 has the row-count cards (all 8 reconcile), the `(Blank)` ticker check and an advisor slicer that filters all three facts |
 
 ## Claude Code review findings
 
