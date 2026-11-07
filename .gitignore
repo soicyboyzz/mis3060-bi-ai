@@ -57,3 +57,6 @@ hw04/scripts/__pycache__/
 
 # HW5: commit the eight source CSVs and the validation report
 !hw05/**/*.csv
+
+# HW6: commit the source CSVs and all report CSVs
+!hw06/**/*.csv

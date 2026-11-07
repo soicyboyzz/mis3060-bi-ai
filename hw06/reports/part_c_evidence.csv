@@ -1,0 +1,60 @@
+question,figure,value
+a,Ending AUM (grand total),12729572078.86
+a,SUMX over clients of [Ending AUM],13149297713.8
+a,difference,419725634.9399986
+a,clients whose last snapshot is before 2024-12-01,175
+a,their last balances (sum),419725634.93999994
+a,those clients that are inactive in dim_client,175
+a,earliest / latest stale snapshot,2022-12-01 / 2023-11-01
+b,Fee Yield (bps) 2024,43.154344109040835
+b,Effective Fee Rate (bps) 2024,45.532319907364425
+b,2024 SUM(aum) in snapshot,135459843783.73
+b,2024 SUM(aum_basis) in fees,128385303527.1
+b,2024 snapshot client-months,27900
+b,2024 fee rows,26216
+b,2024 snapshot client-months with no fee row,1684
+b,AUM in those client-months,7074540256.63
+b,share of 2024 snapshot AUM with no fee row,0.05222610671192668
+b,aum_basis = snapshot aum on matched rows (all 2024 fee rows),True
+b,clients with at least one no-fee month in 2024,1082
+b,no-fee client-months by tier 2024,HNW 472; Retail 1054; UHNW 158
+b,"no-fee client-months, all years",7350
+b,no-fee client-months by year,2020 1139; 2021 1505; 2022 1365; 2023 1657; 2024 1684
+c,last snapshot date,2024-12-01
+c,rows at last snapshot / suspect rows,2325 / 148
+c,AUM-Weighted Alpha (suspects excluded),0.01447994680056427
+c,"simple mean of active_alpha_ytd, same rows",0.008788000918695454
+c,"AUM-weighted alpha, suspects included",0.01667843242874973
+c,"simple mean, suspects included",0.15562441032258065
+c,min / max alpha of suspect rows at last snapshot,-1.2090 / 71.3378
+c,AUM-weighted alpha over ALL 2024 rows (wrong: mixes 12 YTD readings),0.003225456332929842
+d,2024 | HNW: Organic Growth Rate,0.011842995613733375
+d,2024 | HNW: AUM YoY %,0.19640221991798618
+d,2024 | HNW: market + other (YoY - organic),0.1845592243042528
+d,2024 | HNW: Net Flows,25227406.260000005
+d,2024 | HNW: Ending AUM LY,2130154150.42
+d,2024 | HNW: Ending Clients / LY,687 / 687
+d,2024 | Retail: Organic Growth Rate,0.09867011379237657
+d,2024 | Retail: AUM YoY %,0.19128557741552377
+d,2024 | Retail: market + other (YoY - organic),0.0926154636231472
+d,2024 | Retail: Net Flows,44184047.609999985
+d,2024 | Retail: Ending AUM LY,447795648.67
+d,2024 | Retail: Ending Clients / LY,1394 / 1394
+d,2024 | UHNW: Organic Growth Rate,0.0010042865201503285
+d,2024 | UHNW: AUM YoY %,0.19593060498599493
+d,2024 | UHNW: market + other (YoY - organic),0.1949263184658446
+d,2024 | UHNW: Net Flows,8101601.389999993
+d,2024 | UHNW: Ending AUM LY,8067021937.91
+d,2024 | UHNW: Ending Clients / LY,244 / 244
+D,advisor 1: Top 10 Client Share (final),0.7655918685042755
+D,"advisor 1: Top 10 share, simple draft",0.8547335417048204
+D,advisor 1: departed clients in the draft's top 10,1
+D,advisor 5: Top 10 Client Share (final),0.8107867756083519
+D,"advisor 5: Top 10 share, simple draft",0.8808530526803136
+D,advisor 5: departed clients in the draft's top 10,1
+D,advisor 14: Top 10 Client Share (final),0.6716467346175284
+D,"advisor 14: Top 10 share, simple draft",0.7608862144556571
+D,advisor 14: departed clients in the draft's top 10,1
+D,advisor 23: Top 10 Client Share (final),0.7801319204449373
+D,"advisor 23: Top 10 share, simple draft",0.8629045634094834
+D,advisor 23: departed clients in the draft's top 10,1

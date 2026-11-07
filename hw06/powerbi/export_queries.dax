@@ -1,0 +1,55 @@
+// HW6 Part B - the DAX queries behind reports/powerbi_values.csv.
+// Each query can be pasted into DAX query view as is. The "-- slice:" lines tell
+// scripts/02_export_powerbi_values.ps1 how to label the rows it reshapes.
+
+-- slice: All
+EVALUATE
+ROW (
+    "Total Fees", [Total Fees], "Net Flows", [Net Flows], "Effective Fee Rate (bps)", [Effective Fee Rate (bps)],
+    "AUM (naive SUM)", [AUM (naive SUM)], "Ending AUM", [Ending AUM], "Ending Clients", [Ending Clients],
+    "Avg AUM per Client", [Avg AUM per Client], "Ending AUM LY", [Ending AUM LY], "AUM YoY %", [AUM YoY %],
+    "Ending AUM PM", [Ending AUM PM], "AUM MoM %", [AUM MoM %], "Avg Monthly AUM", [Avg Monthly AUM],
+    "Fee Yield (bps)", [Fee Yield (bps)], "Organic Growth Rate", [Organic Growth Rate],
+    "AUM-Weighted Alpha", [AUM-Weighted Alpha], "Alpha Signal", [Alpha Signal],
+    "Top 10 Client Share", [Top 10 Client Share]
+)
+
+-- slice: col=year;label=Year {}
+EVALUATE
+SUMMARIZECOLUMNS (
+    dim_date[year],
+    "Total Fees", [Total Fees], "Net Flows", [Net Flows], "Effective Fee Rate (bps)", [Effective Fee Rate (bps)],
+    "AUM (naive SUM)", [AUM (naive SUM)], "Ending AUM", [Ending AUM], "Ending Clients", [Ending Clients],
+    "Avg AUM per Client", [Avg AUM per Client], "Ending AUM LY", [Ending AUM LY], "AUM YoY %", [AUM YoY %],
+    "Ending AUM PM", [Ending AUM PM], "AUM MoM %", [AUM MoM %], "Avg Monthly AUM", [Avg Monthly AUM],
+    "Fee Yield (bps)", [Fee Yield (bps)], "Organic Growth Rate", [Organic Growth Rate],
+    "AUM-Weighted Alpha", [AUM-Weighted Alpha], "Alpha Signal", [Alpha Signal],
+    "Top 10 Client Share", [Top 10 Client Share]
+)
+
+-- slice: Dec 2024
+EVALUATE
+CALCULATETABLE (
+    ROW (
+        "Ending AUM", [Ending AUM], "Ending AUM PM", [Ending AUM PM], "AUM MoM %", [AUM MoM %],
+        "Ending Clients", [Ending Clients], "Ending AUM LY", [Ending AUM LY], "AUM YoY %", [AUM YoY %]
+    ),
+    dim_date[year] = 2024,
+    dim_date[month] = 12
+)
+
+-- slice: col=client_tier;label=2024 | {}
+EVALUATE
+CALCULATETABLE (
+    SUMMARIZECOLUMNS (
+        dim_client[client_tier],
+        "Total Fees", [Total Fees], "Net Flows", [Net Flows], "Effective Fee Rate (bps)", [Effective Fee Rate (bps)],
+        "AUM (naive SUM)", [AUM (naive SUM)], "Ending AUM", [Ending AUM], "Ending Clients", [Ending Clients],
+        "Avg AUM per Client", [Avg AUM per Client], "Ending AUM LY", [Ending AUM LY], "AUM YoY %", [AUM YoY %],
+        "Ending AUM PM", [Ending AUM PM], "AUM MoM %", [AUM MoM %], "Avg Monthly AUM", [Avg Monthly AUM],
+        "Fee Yield (bps)", [Fee Yield (bps)], "Organic Growth Rate", [Organic Growth Rate],
+        "AUM-Weighted Alpha", [AUM-Weighted Alpha], "Alpha Signal", [Alpha Signal],
+        "Top 10 Client Share", [Top 10 Client Share]
+    ),
+    dim_date[year] = 2024
+)
