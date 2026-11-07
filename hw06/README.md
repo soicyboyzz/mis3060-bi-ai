@@ -51,7 +51,7 @@ python hw06/scripts/01_reconcile_measures.py
 | | |
 |---|---|
 | Rows reconciled | **159**: 17 measures × (grand total + 5 years + 3 tiers in 2024) + 6 for December 2024 |
-| Match | **159 of 159**; the largest difference is $0.00032 (floating-point noise on the $105B UHNW naive sum, far inside the 1-cent tolerance) |
+| Match | **159 of 159**; the largest difference is $0.00032 (floating-point noise on the $102.6B UHNW 2024 naive sum, far inside the 1-cent tolerance) |
 | Required slices (Part B) | all present (the script checks the list) |
 | `AUM (naive SUM)` | $566,681,084,542.48 in both tools, 44.5× the true $12,729,572,078.86 |
 
