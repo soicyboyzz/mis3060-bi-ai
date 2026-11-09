@@ -7,6 +7,7 @@ What the metadata **cannot** say, which was added to the prompt by hand:
 - `aum` is a **balance** (semi-additive). `active_alpha_ytd` is **year-to-date** and non-additive. `is_return_suspect = 1` marks impossible returns kept from HW4.
 - The relationships include one auto date/time table (`LocalDateTable_…`) on `dim_client[client_since]`. It is unused by any measure.
 - `INFO.VIEW.COLUMNS` prints a few `dim_date` and `fact_portfolio_snapshot` names capitalized (`Date`, `Year`, `Month`, `Quarter`), while the relationships and TOM call them `date`, `year`, `month`, `quarter`. DAX names are case-insensitive, so both forms work in a formula.
+- **The `FormatString` column below comes back blank** from `INFO.VIEW.MEASURES` in this Power BI Desktop version, even though every measure is formatted. The format strings read straight from the model (Tabular Object Model) are `$#,0.00` for currency measures, `#,0` for `Ending Clients`, `0.00%` for percentages, `#,0.00` for the bps measures, and none for the text measure `Alpha Signal`. Each one is also listed under its measure in `powerbi/measures.md`.
 - Exported after the measures were built. The `Top 10 Client Share` row was **removed** from what Claude was shown (see `dax_session.md`), so it could not copy the answer.
 
 ## Columns
