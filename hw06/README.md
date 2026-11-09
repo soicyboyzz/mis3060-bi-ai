@@ -84,7 +84,8 @@ python hw06/scripts/01_reconcile_measures.py
 
 ## How the work was done
 - Claude (in Claude Code) drafted both scripts, the DAX and the documents. It ran the scripts, and it drove Power BI Desktop, with permission for Power BI only, to create `_Measures`, mark the date table and build the Measures page. The 17 measures were written into the open model through Power BI's own Tabular library (Desktop allows external tools to add measures), and Power BI reported every one as *Ready*.
-- The course workflow names Claude Desktop for drafting and VS Code for running. Here both happened in Claude Code, and the scripts run the same way from VS Code or any terminal.
+- **Part D used Claude Desktop**, as the assignment asks. The same prompt also went to Claude Code. Both responses are in `claude/dax_session.md`, and `claude/verification.md` tests both: the two measures agree on all 234 slices, and two of Claude Desktop's predictions are refuted.
+- The scripts were drafted in Claude Code rather than Claude Desktop. I re-ran `01_reconcile_measures.py` myself from a terminal (159 match, 0 mismatch) and confirmed with `git status` that its output matched the committed reports.
 
 ## Claude Code review findings
 

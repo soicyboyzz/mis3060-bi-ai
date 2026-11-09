@@ -37,6 +37,30 @@ Claude claimed the shorter pattern from the assignment hint would rank departed 
 
 Power BI found **8 of 25 advisors** where the two versions differ. In each of the four checked in pandas, exactly one departed client's last 2022–2023 balance entered the draft's top 10. **All the slices the assignment reconciles agree**, so the reconciliation alone would not have caught this. Only an edge case with departed clients exposes it.
 
+## Claude Desktop session (Session A in `dax_session.md`)
+
+I sent the same prompt to Claude Desktop. It returned a measure written differently: `MAX(snapshot_date)` pinned with `dim_date[date] = …` instead of `LASTNONBLANK` passed to `CALCULATE`, and a second sort key on `client_id`. I tested it as a query-scoped measure against `hw06.pbix`, next to the model's measure and the naive version:
+
+| Slices compared | Rows | Desktop ≠ model measure | Naive ≠ model measure |
+|---|---:|---:|---:|
+| Grand total | 1 | 0 | 0 |
+| By year | 5 | 0 | 0 |
+| By month | 60 | 0 | 0 |
+| By tier, 2024 | 3 | 0 | 0 |
+| By tier × year | 15 | 0 | 0 |
+| By advisor | 25 | 0 | **8** |
+| By advisor × year | 125 | 0 | **7** |
+
+**Desktop's measure is correct.** It equals the model's measure on all 234 slices (the largest difference is 3×10⁻¹⁶, rounding noise), including the advisor slices where the naive version fails.
+
+**Claims refuted:**
+1. *"Grand total … the share is overstated"* (query A comment: *"expect naive > correct here"*) and *"the naive share should differ … in 2022, 2023"*. **Refuted.** Naive = correct at the grand total and in every year, to the last digit. The mechanism Desktop describes is real, but no departed client's stale balance is large enough to reach the firm's top 10. The divergence appears only in small slices (single advisors), which Desktop never mentioned. Its claim that the naive share "can go above 100%" never happened on any of the 234 slices.
+2. Query D's `CALCULATETABLE ( VALUES ( dim_client[client_id] ), fact_portfolio_snapshot[snapshot_date] = d )` was meant to list the clients present on the last date. **Refuted:** it returns all **2,500** clients, because a filter on the fact table does not reach `dim_client` through a single-direction relationship. Ironically, Desktop's own table states this rule for `VALUES` in the measure. The share is still right, because the 175 departed clients are blank on that date and add nothing.
+
+**Claims confirmed:** the date-pinning logic, that the 2024 tier view hides the bug, the ≤ 100% guarantee (query C: all "ok"), and that A equals D.
+
+**Tie-break:** Desktop's `dim_client[client_id], ASC` makes `TOPN` return exactly 10 rows. I kept the model's measure unchanged. With and without the tie-break, the two measures agree on all 234 slices above, so no tie affects any result in this data (see also edge case 5). Desktop's version would be the safer choice in a model where ties are possible.
+
 ## What I changed and why
 
 - **The measure: nothing changed.** It passed every reconciliation row and every edge case. Pinning one `LastSnapshot` for both the ranking and the denominator is what keeps it correct on the advisor slices.
@@ -44,4 +68,4 @@ Power BI found **8 of 25 advisors** where the two versions differ. In each of th
 
 ## Judgement on Claude's output
 
-The measure and the filter-context explanation were correct and specific to this model. They used the real column names from the metadata, reused `[Ending AUM]` instead of redefining it, and anticipated the stale-balance trap that Part C (a) exposes. The weak spot was the test query: it used a reserved name, which shows that a confident explanation is not the same as working code. The grain and "balance" facts added to the prompt made the difference. Without "there is no row after a client leaves", the per-client `[Ending AUM]` version looks equally valid, and it passes all of the assignment's required slices.
+The measure and the filter-context explanation were correct and specific to this model. They used the real column names from the metadata, reused `[Ending AUM]` instead of redefining it, and anticipated the stale-balance trap that Part C (a) exposes. The weak spot was the test query: it used a reserved name, which shows that a confident explanation is not the same as working code. Claude Desktop, given the same prompt, reached an equally correct measure by a different route, and added a sensible tie-break. Its weak spot was the predictions: it said where the naive version would fail (grand total, 2022–2023) without checking, and it was wrong both times. Its test query D also contradicted a rule it had just explained. Both sessions show the same lesson: the logic was sound, but every claim about the data had to be run to be trusted. The grain and "balance" facts added to the prompt made the difference. Without "there is no row after a client leaves", the per-client `[Ending AUM]` version looks equally valid, and it passes all of the assignment's required slices.
