@@ -29,7 +29,7 @@ The last-snapshot logic used throughout is `LASTNONBLANK ( dim_date[date], CALCU
 ```DAX
 AUM (naive SUM) = SUM ( fact_portfolio_snapshot[aum] )
 ```
-**Pattern:** plain SUM applied to a balance, which is the mistake. **Meaning:** none. At the grand total it reports **$566.68B**, about 44.5× the firm's real $12.73B, because it adds 60 monthly balances together. pandas makes exactly the same mistake (row `AUM (naive SUM), All`), which shows the problem is the formula, not the tool. Its description in the model says "WRONG ON PURPOSE".
+**Format:** `$#,0.00`. **Pattern:** plain SUM applied to a balance, which is the mistake. **Meaning:** none. At the grand total it reports **$566.68B**, about 44.5× the firm's real $12.73B, because it adds 60 monthly balances together. pandas makes exactly the same mistake (row `AUM (naive SUM), All`), which shows the problem is the formula, not the tool. Its description in the model says "WRONG ON PURPOSE".
 
 ### 1. `Ending AUM`
 ```DAX
@@ -39,7 +39,7 @@ CALCULATE (
     LASTNONBLANK ( dim_date[date], CALCULATE ( COUNTROWS ( fact_portfolio_snapshot ) ) )
 )
 ```
-**Pattern:** last balance. **Meaning:** how much Wildcat manages at the end of the selected period. It is **$12,729,572,078.86** at December 2024 for the whole firm.
+**Format:** `$#,0.00`. **Pattern:** last balance. **Meaning:** how much Wildcat manages at the end of the selected period. It is **$12,729,572,078.86** at December 2024 for the whole firm.
 
 ### 2. `Ending Clients`
 ```DAX
@@ -49,13 +49,13 @@ CALCULATE (
     LASTNONBLANK ( dim_date[date], CALCULATE ( COUNTROWS ( fact_portfolio_snapshot ) ) )
 )
 ```
-**Pattern:** last balance (a distinct count at the last date). **Meaning:** how many clients still hold an account at the end of the period. That's 2,325 today; the other 175 of the 2,500 clients have left.
+**Format:** `#,0`. **Pattern:** last balance (a distinct count at the last date). **Meaning:** how many clients still hold an account at the end of the period. That's 2,325 today; the other 175 of the 2,500 clients have left.
 
 ### 3. `Avg AUM per Client`
 ```DAX
 Avg AUM per Client = DIVIDE ( [Ending AUM], [Ending Clients] )
 ```
-**Pattern:** recompute (a ratio of two last-balance measures). **Meaning:** the typical relationship size at period end. It is $5.48M firm-wide, but ranges from $383K for Retail to $39.5M for UHNW.
+**Format:** `$#,0.00`. **Pattern:** recompute (a ratio of two last-balance measures). **Meaning:** the typical relationship size at period end. It is $5.48M firm-wide, but ranges from $383K for Retail to $39.5M for UHNW.
 
 ### 4. `Ending AUM LY` and `AUM YoY %`
 ```DAX
@@ -63,7 +63,7 @@ Ending AUM LY = CALCULATE ( [Ending AUM], SAMEPERIODLASTYEAR ( dim_date[date] ) 
 
 AUM YoY % = DIVIDE ( [Ending AUM] - [Ending AUM LY], [Ending AUM LY] )
 ```
-**Pattern:** last balance, time-shifted, with a recomputed growth ratio. `LASTNONBLANK` runs inside the shifted dates, so LY is the last snapshot of the prior period. `DIVIDE` without a third argument returns blank for 2020, which has no prior year, instead of a misleading 0%. **Meaning:** how much the book grew over 12 months. 2024: **+19.58%** ($10.64B → $12.73B).
+**Format:** `Ending AUM LY` `$#,0.00`, `AUM YoY %` `0.00%`. **Pattern:** last balance, time-shifted, with a recomputed growth ratio. `LASTNONBLANK` runs inside the shifted dates, so LY is the last snapshot of the prior period. `DIVIDE` without a third argument returns blank for 2020, which has no prior year, instead of a misleading 0%. **Meaning:** how much the book grew over 12 months. 2024: **+19.58%** ($10.64B → $12.73B).
 
 ### 5. `Ending AUM PM` and `AUM MoM %`
 ```DAX
@@ -71,7 +71,7 @@ Ending AUM PM = CALCULATE ( [Ending AUM], DATEADD ( dim_date[date], -1, MONTH ) 
 
 AUM MoM % = DIVIDE ( [Ending AUM] - [Ending AUM PM], [Ending AUM PM] )
 ```
-**Pattern:** last balance, shifted one month. **Meaning:** the latest monthly change. December 2024 vs November 2024 is in the reconciliation rows `Dec 2024`.
+**Format:** `Ending AUM PM` `$#,0.00`, `AUM MoM %` `0.00%`. **Pattern:** last balance, shifted one month. **Meaning:** the latest monthly change. December 2024 vs November 2024 is in the reconciliation rows `Dec 2024`.
 
 ### 6. `Avg Monthly AUM`
 ```DAX
@@ -81,19 +81,19 @@ DIVIDE (
     DISTINCTCOUNT ( fact_portfolio_snapshot[snapshot_date] )
 )
 ```
-**Pattern:** recompute (the sum of balances ÷ the number of months, which is the only valid use of a balance sum). **Meaning:** the average size of the book over the period, which is the right base for anything earned over the whole period. 2024: $11.29B, below the $12.73B year-end figure because AUM grew during the year.
+**Format:** `$#,0.00`. **Pattern:** recompute (the sum of balances ÷ the number of months, which is the only valid use of a balance sum). **Meaning:** the average size of the book over the period, which is the right base for anything earned over the whole period. 2024: $11.29B, below the $12.73B year-end figure because AUM grew during the year.
 
 ### 7. `Fee Yield (bps)`
 ```DAX
 Fee Yield (bps) = DIVIDE ( [Total Fees] * 12 * 10000, SUM ( fact_portfolio_snapshot[aum] ) )
 ```
-**Pattern:** recompute and weight, across **two fact tables** (fees from `fact_fees`, AUM from `fact_portfolio_snapshot`). Both share `dim_date` and `dim_client`, so the same filter reaches both. Multiplying monthly fees by 12 annualizes them; the AUM sum covers the same months. **Meaning:** how many basis points per year Wildcat collects on the money it manages. 2024: 43.15 bps overall; Retail pays 82.81 and UHNW 36.14.
+**Format:** `#,0.00` (bps, 2 decimals). **Pattern:** recompute and weight, across **two fact tables** (fees from `fact_fees`, AUM from `fact_portfolio_snapshot`). Both share `dim_date` and `dim_client`, so the same filter reaches both. Multiplying monthly fees by 12 annualizes them; the AUM sum covers the same months. **Meaning:** how many basis points per year Wildcat collects on the money it manages. 2024: 43.15 bps overall; Retail pays 82.81 and UHNW 36.14.
 
 ### 8. `Organic Growth Rate`
 ```DAX
 Organic Growth Rate = DIVIDE ( [Net Flows], [Ending AUM LY] )
 ```
-**Pattern:** recompute (an additive flow ÷ a last balance). **Meaning:** how much of the growth came from clients adding money rather than from markets. 2024: 0.73% of the opening balance. At the grand total it divides five years of flows by the December 2023 balance, so read it by year.
+**Format:** `0.00%`. **Pattern:** recompute (an additive flow ÷ a last balance). **Meaning:** how much of the growth came from clients adding money rather than from markets. 2024: 0.73% of the opening balance. At the grand total it divides five years of flows by the December 2023 balance, so read it by year.
 
 ### 9. `AUM-Weighted Alpha`
 ```DAX
@@ -110,7 +110,7 @@ RETURN
         fact_portfolio_snapshot[is_return_suspect] = 0
     )
 ```
-**Pattern:** recompute and weight (Σ aum × alpha ÷ Σ aum, row by row with `SUMX`), restricted to the last snapshot and with suspect returns removed. **Meaning:** how far the average client dollar has beaten or trailed its benchmark so far this year. 2024: +1.45%.
+**Format:** `0.00%`. **Pattern:** recompute and weight (Σ aum × alpha ÷ Σ aum, row by row with `SUMX`), restricted to the last snapshot and with suspect returns removed. **Meaning:** how far the average client dollar has beaten or trailed its benchmark so far this year. 2024: +1.45%.
 
 ### 10. `Alpha Signal`
 ```DAX
@@ -125,7 +125,7 @@ RETURN
         "In line"
     )
 ```
-**Pattern:** a text label on a recomputed measure. The `ISBLANK` test comes first, so an empty slice shows blank rather than "In line". **Meaning:** a quick flag for the manager: 2022 (+2.85%) and the Retail tier in 2024 (+2.40%) are "Outperforming", and everything else is "In line".
+**Format:** text (no number format). **Pattern:** a text label on a recomputed measure. The `ISBLANK` test comes first, so an empty slice shows blank rather than "In line". **Meaning:** a quick flag for the manager: 2022 (+2.85%) and the Retail tier in 2024 (+2.40%) are "Outperforming", and everything else is "In line".
 
 ### 11. `Top 10 Client Share`
 ```DAX
@@ -141,7 +141,7 @@ VAR Top10 = TOPN ( 10, ClientBalances, [@aum], DESC )
 RETURN
     DIVIDE ( SUMX ( Top10, [@aum] ), [Ending AUM] )
 ```
-**Pattern:** recompute (a ratio of two last-balance sums), where **both parts use the same last date**. `VALUES ( dim_client[client_id] )` keeps the ranking inside the current filter, so in the tier table each tier ranks only its own clients and the share can't exceed 100%. **Meaning:** concentration risk, or how much of the book walks out the door if the ten biggest relationships leave. It is 6.16% firm-wide, but 8.13% within UHNW and 67–81% within single advisors' books (the four checked in Part D). Part D explains why the date is fixed once instead of using `[Ending AUM]` per client.
+**Format:** `0.00%`. **Pattern:** recompute (a ratio of two last-balance sums), where **both parts use the same last date**. `VALUES ( dim_client[client_id] )` keeps the ranking inside the current filter, so in the tier table each tier ranks only its own clients and the share can't exceed 100%. **Meaning:** concentration risk, or how much of the book walks out the door if the ten biggest relationships leave. It is 6.16% firm-wide, but 8.13% within UHNW and 67–81% within single advisors' books (the four checked in Part D). Part D explains why the date is fixed once instead of using `[Ending AUM]` per client.
 
 ### Report page **Measures** (`powerbi/hw06.pbix`, picture in `powerbi/measures_page.jpg`)
 - **Card:** Ending AUM, Ending Clients, Avg AUM per Client, Top 10 Client Share.

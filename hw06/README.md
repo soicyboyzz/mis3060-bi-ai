@@ -4,6 +4,21 @@
 
 Twelve DAX measures on the Wildcat Capital portfolio snapshot, each using the pattern that matches its additivity class (SUM, last balance, or recompute-and-weight). Every number is proven against an independent pandas calculation.
 
+## Where each rubric item is
+
+| Rubric item | Where to find it |
+|---|---|
+| A: measures 1–11, DAX, pattern, meaning, format | `powerbi/measures.md` Part A (each measure lists its **Format**, **Pattern** and **Meaning**); measures in the `_Measures` table of `powerbi/hw06.pbix` |
+| A: **Measures** page | `powerbi/hw06.pbix` (saved on that page); picture in `powerbi/measures_page.jpg` |
+| A: naive SUM labeled as wrong | `measures.md` measure 0; its model description reads "WRONG ON PURPOSE"; it is on no report visual |
+| B: pandas computed independently | `scripts/01_reconcile_measures.py` reads only `data/*.csv` before opening the Power BI file |
+| B: all required slices | grand total for every measure; by year for 1, 4, 6–10; by tier for 2024 for 1, 3, 4, 7–11; measure 5 for Dec 2024. The script fails if one is missing |
+| B: CSV structure and tolerance | `reports/powerbi_values.csv` (`measure, slice, value`), `reports/measure_reconciliation.csv` (`measure, slice, powerbi_value, pandas_value, abs_diff, match`); 0.01 currency, 0.0001 ratios |
+| B: mismatches explained | [Results](#results) below |
+| C: (a)–(d) | `measures.md` Part C; pandas evidence in `reports/part_c_evidence.csv` |
+| D: metadata, prompt, verification | `claude/model_metadata.md`, `claude/dax_session.md`, `claude/verification.md` |
+| Process: Claude Code review findings | [Claude Code review findings](#claude-code-review-findings) below |
+
 ## Structure
 
 ```
@@ -55,7 +70,7 @@ python hw06/scripts/01_reconcile_measures.py
 | Required slices (Part B) | all present (the script checks the list) |
 | `AUM (naive SUM)` | $566,681,084,542.48 in both tools, 44.5× the true $12,729,572,078.86 |
 
-**No measure mismatched**, at the first run or later. Two problems came up on the way, both in my export script's labels rather than in a measure:
+**No measure mismatched**, at the first run or later. **Which side was wrong:** neither the DAX nor pandas. Both times the fault was in the Power BI *export* step (how rows were labeled in `powerbi_values.csv`), and the reconciliation caught it by refusing rows it could not pair, instead of passing them silently:
 1. Trailing spaces in the slice prefixes were trimmed, so rows came out as `Year2020`, and the reconciliation refused them as "no pandas twin". I fixed this with explicit `label=Year {}` templates.
 2. Removing ADOMD's `[ ]` around result names also ate the closing bracket of `[SUMX over clients of [Ending AUM]]`. The fix removes exactly one outer pair.
 
